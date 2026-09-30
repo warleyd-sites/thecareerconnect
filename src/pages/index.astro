@@ -1,0 +1,124 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Nav from "@/components/Nav.astro";
+import Hero from "@/components/Hero.astro";
+import Services from "@/components/Services.astro";
+import ContactForm from "@/components/ContactForm.astro";
+import Footer from "@/components/Footer.astro";
+import { site, telHref, areaLinks, areasFormatted } from "@/config/site";
+import SiteImage from "@/components/SiteImage.astro";
+import { presentImages } from "@/lib/images";
+
+const home = site.home;
+const gallery = presentImages(home.gallery);
+---
+
+{/* The home title uses the tagline, so it does not collide with the
+    /service-areas/<primaryCity> page, which owns "<trade> in <primaryCity>". */}
+<Layout title={site.business.tagline}>
+  <Nav />
+  <Hero />
+  <Services />
+
+  <!-- Service Areas section (SEO + UX: shows breadth of coverage) -->
+  <section id="service-areas" class="py-16 px-4 bg-white">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-10">
+        <p class="text-sm font-semibold uppercase tracking-widest mb-2" style="color: var(--color-brand)">
+          Service Areas
+        </p>
+        <h2 class="font-display text-3xl sm:text-4xl font-bold" style="color: var(--color-navy)">
+          {site.business.trade} in {areasFormatted}
+        </h2>
+      </div>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {areaLinks.map((area) => (
+          <a
+            href={area.href}
+            class="group block rounded-xl border-2 border-gray-100 p-6 hover:shadow-md hover:border-gray-200 transition-all"
+          >
+            <p class="text-xs font-semibold uppercase tracking-wider mb-2" style="color: var(--color-brand)">{site.business.trade} in</p>
+            <h3 class="font-display text-xl font-bold mb-2 group-hover:underline" style="color: var(--color-navy)">{area.name}</h3>
+            <p class="text-sm text-gray-500">See {site.business.trade.toLowerCase()} services in {area.name} →</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {gallery.length > 0 && (
+    <section class="px-4 pb-4">
+      <div class="max-w-6xl mx-auto grid sm:grid-cols-3 gap-4">
+        {gallery.map((img) => (
+          <SiteImage
+            image={img}
+            class="h-56 w-full object-cover rounded-xl"
+            sizes="(min-width: 640px) 33vw, 100vw"
+          />
+        ))}
+      </div>
+    </section>
+  )}
+
+  <!-- About strip — prose and stats both come from `home` -->
+  <section class="py-16 px-4 bg-gray-50">
+    <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+      <div>
+        <h2 class="font-display text-3xl sm:text-4xl font-bold mb-4" style="color: var(--color-navy)">
+          About {site.business.name}
+        </h2>
+        <p class="text-gray-700 leading-relaxed mb-6">{home.aboutParagraph}</p>
+        <a href="/about" class="font-semibold text-sm" style="color: var(--color-brand)">
+          Read our story →
+        </a>
+      </div>
+      <div class="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
+        <div class="grid grid-cols-2 gap-6">
+          <div class="text-center">
+            <div class="font-display text-4xl font-bold" style="color: var(--color-brand)">{site.services.length}</div>
+            <div class="text-sm text-gray-600 mt-1">{site.business.trade} Services</div>
+          </div>
+          <div class="text-center">
+            <div class="font-display text-4xl font-bold" style="color: var(--color-brand)">{site.locations.length}</div>
+            <div class="text-sm text-gray-600 mt-1">Areas Served</div>
+          </div>
+          {home.stats.map((stat) => (
+            <div class="text-center col-span-2 sm:col-span-1">
+              <div class="text-sm font-semibold text-gray-800">{stat}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA / Contact — the primary lead-capture point on the page -->
+  <section id="quote" class="py-16 px-4 scroll-mt-20">
+    <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-start">
+      <div>
+        <h2 class="font-display text-3xl sm:text-4xl font-bold mb-4" style="color: var(--color-navy)">
+          Get a {site.business.trade.toLowerCase()} quote in {site.business.primaryCity}
+        </h2>
+        <p class="text-gray-600 leading-relaxed mb-6">{site.pages.contact.responseLine}</p>
+        <ul class="space-y-3 text-gray-700">
+          {home.ctaBullets.map((bullet) => (
+            <li class="flex items-start gap-2 text-sm">
+              <span aria-hidden="true" style="color: var(--color-brand)" class="mt-0.5">✓</span>
+              <span>{bullet}</span>
+            </li>
+          ))}
+        </ul>
+        <a
+          href={telHref}
+          class="inline-flex items-center gap-2 mt-8 px-6 py-4 rounded-lg text-white font-bold transition-opacity hover:opacity-90"
+          style="background-color: var(--color-brand)"
+        >
+          Call {site.business.phone}
+        </a>
+      </div>
+      <ContactForm />
+    </div>
+  </section>
+
+  <Footer />
+</Layout>

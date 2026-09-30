@@ -1,0 +1,138 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Nav from "@/components/Nav.astro";
+import ContactForm from "@/components/ContactForm.astro";
+import Footer from "@/components/Footer.astro";
+import { site, telHref, areaLinks } from "@/config/site";
+import SiteImage from "@/components/SiteImage.astro";
+
+export function getStaticPaths() {
+  return site.locations.map((loc) => ({
+    params: { city: loc.slug },
+    props: { loc },
+  }));
+}
+
+const { loc } = Astro.props;
+const others = areaLinks.filter((a) => a.slug !== loc.slug);
+const featured = site.services.slice(0, 4);
+---
+
+<Layout
+  title={`${site.business.trade} in ${loc.city}`}
+  description={`${site.business.name} provides ${site.services
+    .slice(0, 4)
+    .map((s) => s.name)
+    .join(", ")} in ${loc.city}. Call ${site.business.phone}.`}
+>
+  <Nav />
+
+  <section class="py-12 px-4" style="background-color: var(--color-navy)">
+    <div class="max-w-6xl mx-auto">
+      <p class="text-sm font-semibold uppercase tracking-widest mb-2" style="color: var(--color-brand)">
+        {site.business.trade} Services
+      </p>
+      <h1 class="font-display text-4xl font-bold text-white mb-2">
+        {site.business.trade} in {loc.city}
+      </h1>
+      <p class="text-gray-300">{site.business.name} — serving {loc.city} and the surrounding area</p>
+    </div>
+  </section>
+
+  <SiteImage
+    image={loc.image}
+    class="w-full h-56 sm:h-80 object-cover"
+    sizes="100vw"
+  />
+
+  <section class="py-16 px-4">
+    <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-start">
+      <div>
+        <!-- The unique, per-city body copy from `locations[].body` -->
+        <p class="text-gray-700 leading-relaxed mb-8 text-lg">{loc.body}</p>
+
+        {loc.neighborhoods && loc.neighborhoods.length > 0 && (
+          <div class="mb-8">
+            <h2 class="font-display text-xl font-bold mb-3" style="color: var(--color-navy)">
+              Areas we cover around {loc.city}
+            </h2>
+            <div class="flex flex-wrap gap-2">
+              {loc.neighborhoods.map((n) => (
+                <span class="px-3 py-1.5 rounded-full bg-gray-100 text-sm text-gray-700">{n}</span>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <h2 class="font-display text-xl font-bold mb-4" style="color: var(--color-navy)">
+          {site.business.trade} services in {loc.city}
+        </h2>
+        <ul class="space-y-3 mb-8">
+          {
+            site.services.map((service) => (
+              <li class="flex items-start gap-3 text-gray-700">
+                <span aria-hidden="true" style="color: var(--color-brand)" class="mt-0.5">✓</span>
+                <a href={`/services/${service.slug}`} class="font-medium hover:underline">{service.name}</a>
+              </li>
+            ))
+          }
+        </ul>
+
+        <a
+          href={telHref}
+          class="inline-flex items-center gap-2 px-6 py-4 rounded-lg text-white font-bold transition-opacity hover:opacity-90"
+          style="background-color: var(--color-brand)"
+        >
+          📞 Call {site.business.phone}
+        </a>
+      </div>
+
+      <ContactForm />
+    </div>
+  </section>
+
+  <section class="py-12 px-4 bg-gray-50 border-t border-gray-200">
+    <div class="max-w-6xl mx-auto">
+      <h2 class="font-display text-xl font-bold mb-5" style="color: var(--color-navy)">
+        Popular services in {loc.city}
+      </h2>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {featured.map((s) => (
+            <a href={`/services/${s.slug}`} class="group block rounded-xl overflow-hidden bg-white border border-gray-200 hover:shadow-md hover:border-gray-300 transition-all">
+              <SiteImage
+                image={s.image}
+                class="h-32 w-full object-cover"
+                sizes="(min-width: 1024px) 280px, (min-width: 640px) 45vw, 100vw"
+              />
+              <div class="p-4">
+                <div class="text-sm font-semibold group-hover:underline" style="color: var(--color-navy)">{s.icon} {s.name}</div>
+              </div>
+            </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Other service areas -->
+  {others.length > 0 && (
+    <section class="py-10 px-4 bg-gray-50">
+      <div class="max-w-6xl mx-auto">
+        <h3 class="font-display text-xl font-bold mb-4" style="color: var(--color-navy)">
+          Other Areas We Serve
+        </h3>
+        <div class="flex flex-wrap gap-3">
+          {others.map((a) => (
+            <a
+              href={a.href}
+              class="px-4 py-2 rounded-full border border-gray-200 text-sm text-gray-600 hover:border-gray-400 hover:text-gray-900 transition-colors"
+            >
+              {a.name}
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <Footer />
+</Layout>

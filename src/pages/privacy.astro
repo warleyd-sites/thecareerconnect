@@ -1,0 +1,69 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Nav from "@/components/Nav.astro";
+import Footer from "@/components/Footer.astro";
+import { site, telHref, mailtoHref } from "@/config/site";
+---
+
+<Layout
+  title="Privacy Policy"
+  description={`Privacy policy for ${site.business.name}. We keep your information simple and safe.`}
+>
+  <Nav />
+
+  <section class="py-12 px-4" style="background-color: var(--color-navy)">
+    <div class="max-w-6xl mx-auto">
+      <h1 class="font-display text-4xl font-bold text-white mb-2">Privacy Policy</h1>
+      <p class="text-gray-300">Last updated: {new Date().getFullYear()}</p>
+    </div>
+  </section>
+
+  <section class="py-16 px-4">
+    <div class="max-w-3xl mx-auto prose prose-gray">
+
+      <h2 class="font-display text-2xl font-bold mb-4" style="color: var(--color-navy)">What we collect</h2>
+      <p class="text-gray-700 leading-relaxed mb-6">
+        When you fill out our contact form, we collect your name, phone number, and the message you send us.
+        We use that information only to call you back about your project. We do not sell it, share it with
+        advertisers, or add you to any mailing list.
+      </p>
+
+      <h2 class="font-display text-2xl font-bold mb-4" style="color: var(--color-navy)">How we use it</h2>
+      <p class="text-gray-700 leading-relaxed mb-6">
+        We use your contact details to respond to your quote request and, if you become a customer, to
+        schedule and follow up on your job. That's it.
+      </p>
+
+      <h2 class="font-display text-2xl font-bold mb-4" style="color: var(--color-navy)">Delete your data</h2>
+      <p class="text-gray-700 leading-relaxed mb-6">
+        Want us to remove your information? Email us at{" "}
+        <a href={mailtoHref} class="font-semibold" style="color: var(--color-brand)">
+          {site.business.email}
+        </a>{" "}
+        with the subject line <strong>"Delete my data"</strong> and we'll remove your details within 7 days
+        and confirm by reply.
+      </p>
+
+      <h2 class="font-display text-2xl font-bold mb-4" style="color: var(--color-navy)">Cookies</h2>
+      <p class="text-gray-700 leading-relaxed mb-6">
+        This site does not use tracking cookies or advertising pixels. We may use a single session cookie
+        to make the contact form work correctly; it expires when you close your browser.
+      </p>
+
+      <h2 class="font-display text-2xl font-bold mb-4" style="color: var(--color-navy)">Questions</h2>
+      <p class="text-gray-700 leading-relaxed">
+        If you have any questions about this policy, call us at{" "}
+        <a href={telHref} class="font-semibold" style="color: var(--color-brand)">
+          {site.business.phone}
+        </a>{" "}
+        or email{" "}
+        <a href={mailtoHref} class="font-semibold" style="color: var(--color-brand)">
+          {site.business.email}
+        </a>.
+      </p>
+
+    </div>
+  </section>
+
+  <Footer />
+</Layout>

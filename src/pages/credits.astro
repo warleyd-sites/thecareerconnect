@@ -1,0 +1,115 @@
+---
+/**
+ * Photo credits.
+ *
+ * Images run uncaptioned on the site itself, so the CC BY / CC BY-SA licences
+ * are satisfied here instead: one page, linked from the footer of every page.
+ * Public-domain and CC0 images need no credit, but are listed anyway so the
+ * provenance of every photo on the site is in one place.
+ *
+ * Generated from src/image-credits.json — the manifest the sourcing script
+ * writes. When a client supplies their own photos, their entries drop out of
+ * the manifest and off this page automatically.
+ */
+import Layout from "@/layouts/Layout.astro";
+import Nav from "@/components/Nav.astro";
+import Footer from "@/components/Footer.astro";
+import { site } from "@/config/site";
+import credits from "../image-credits.json";
+import { hasImage } from "@/lib/images";
+
+interface Credit {
+  title: string | null;
+  creator: string | null;
+  license: string;
+  licenseUrl: string | null;
+  source: string;
+  page: string | null;
+  attributionRequired: boolean;
+  usedFor?: string;
+}
+
+// Only credit images that actually made it into the build.
+const entries = (Object.entries(credits) as [string, Credit][])
+  .filter(([file]) => hasImage({ file, alt: "" }))
+  .sort((a, b) => Number(b[1].attributionRequired) - Number(a[1].attributionRequired));
+
+const required = entries.filter(([, c]) => c.attributionRequired);
+const free = entries.filter(([, c]) => !c.attributionRequired);
+---
+
+<Layout title="Photo credits" description={`Photo credits and licences for images used on the ${site.business.name} website.`}>
+  <Nav />
+
+  <section class="py-12 px-4" style="background-color: var(--color-navy)">
+    <div class="max-w-6xl mx-auto">
+      <h1 class="font-display text-4xl font-bold text-white mb-2">Photo credits</h1>
+      <p class="text-gray-300 max-w-3xl">
+        Stock and public photography used for illustration on this site, with the licence for each.
+      </p>
+    </div>
+  </section>
+
+  <section class="py-16 px-4">
+    <div class="max-w-3xl mx-auto space-y-10">
+      {required.length > 0 && (
+        <div>
+          <h2 class="font-display text-2xl font-bold mb-4" style="color: var(--color-navy)">
+            Licensed with attribution
+          </h2>
+          <ul class="space-y-4">
+            {required.map(([file, c]) => (
+              <li class="text-sm text-gray-700 border-b border-gray-100 pb-4">
+                <span class="font-semibold text-gray-900">{c.title ?? file}</span>
+                {c.creator && <span> — {c.creator}</span>}
+                <span class="text-gray-500">
+                  {" · "}
+                  {c.licenseUrl ? (
+                    <a href={c.licenseUrl} rel="license noopener" target="_blank" class="underline hover:text-gray-800">{c.license}</a>
+                  ) : (
+                    c.license
+                  )}
+                  {" · "}
+                  {c.page ? (
+                    <a href={c.page} rel="noopener" target="_blank" class="underline hover:text-gray-800">{c.source}</a>
+                  ) : (
+                    c.source
+                  )}
+                </span>
+                {c.usedFor && <div class="text-xs text-gray-500 mt-1">Used for: {c.usedFor}</div>}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {free.length > 0 && (
+        <div>
+          <h2 class="font-display text-2xl font-bold mb-4" style="color: var(--color-navy)">
+            Public domain and CC0
+          </h2>
+          <p class="text-sm text-gray-600 mb-4">These require no attribution; they are listed for completeness.</p>
+          <ul class="space-y-3">
+            {free.map(([file, c]) => (
+              <li class="text-sm text-gray-700">
+                <span class="font-medium">{c.title ?? file}</span>
+                <span class="text-gray-500">
+                  {" · "}
+                  {c.license}
+                  {" · "}
+                  {c.page ? (
+                    <a href={c.page} rel="noopener" target="_blank" class="underline hover:text-gray-800">{c.source}</a>
+                  ) : (
+                    c.source
+                  )}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <Footer />
+</Layout>

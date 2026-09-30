@@ -1,0 +1,14 @@
+node_modules
+dist
+build
+.next
+.vercel
+.netlify
+coverage
+*.lock
+pnpm-lock.yaml
+package-lock.json
+yarn.lock
+bun.lockb
+.cookies
+.claude/skills/

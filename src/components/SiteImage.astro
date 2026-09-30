@@ -1,0 +1,49 @@
+---
+/**
+ * The single way an image reaches a page.
+ *
+ * Renders nothing at all when the slot is empty or the file is missing, so
+ * every layout has to survive having no image — that is what lets us ship
+ * before the client has sent photos, then drop files in later with no code
+ * change.
+ */
+import { Image } from "astro:assets";
+import { resolveImage, type ImageRef } from "@/lib/images";
+
+interface Props {
+  image?: ImageRef | null;
+  class?: string;
+  /** Responsive `sizes`. Default assumes a full-bleed image. */
+  sizes?: string;
+  widths?: number[];
+  /** Set "eager" for above-the-fold images (the LCP element). */
+  loading?: "lazy" | "eager";
+  fetchpriority?: "high" | "low" | "auto";
+}
+
+const {
+  image,
+  class: className,
+  sizes = "100vw",
+  widths = [480, 800, 1200, 1600],
+  loading = "lazy",
+  fetchpriority = "auto",
+} = Astro.props;
+
+const src = resolveImage(image?.file);
+---
+
+{
+  src && image && (
+    <Image
+      src={src}
+      alt={image.alt}
+      class={className}
+      sizes={sizes}
+      widths={widths}
+      loading={loading}
+      decoding="async"
+      fetchpriority={fetchpriority}
+    />
+  )
+}

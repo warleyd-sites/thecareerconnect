@@ -1,0 +1,188 @@
+---
+import { site, telHref, areaLinks } from "@/config/site";
+---
+
+<header class="sticky top-0 z-50 bg-white border-b border-gray-100 shadow-sm">
+  <nav aria-label="Main navigation" class="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between h-16">
+    <a href="/" class="font-display text-lg sm:text-xl font-bold" style={`color: var(--color-navy)`}>
+      {site.business.name}
+    </a>
+
+    <div class="hidden md:flex items-center gap-7 text-[15px] font-semibold text-gray-800">
+      <div class="nav-dropdown">
+        <a href="/services" class="nav-link inline-flex items-center gap-1">
+          Services
+          <svg aria-hidden="true" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" /></svg>
+        </a>
+        <div class="nav-dropdown-panel">
+          <div class="py-2">
+            <a href="/services" class="block px-4 py-2 text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-900 italic">All services →</a>
+            <div class="border-t border-gray-100"></div>
+            {site.services.slice(0, 7).map((s) => (
+              <a href={`/services/${s.slug}`} class="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-800 hover:bg-gray-50">
+                <span>{s.icon}</span><span>{s.name}</span>
+              </a>
+            ))}
+            {site.services.length > 7 && (
+              <a href="/services" class="block px-4 py-2 text-sm text-gray-500 hover:bg-gray-50 italic">
+                +{site.services.length - 7} more →
+              </a>
+            )}
+          </div>
+        </div>
+      </div>
+
+      <div class="nav-dropdown">
+        <a href="#service-areas" class="nav-link inline-flex items-center gap-1">
+          Service Areas
+          <svg aria-hidden="true" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" /></svg>
+        </a>
+        <div class="nav-dropdown-panel">
+          <div class="py-2">
+            {areaLinks.slice(0, 7).map((area) => (
+              <a href={area.href} class="block px-4 py-2.5 text-sm text-gray-800 hover:bg-gray-50">
+                {area.name}
+              </a>
+            ))}
+            {areaLinks.length > 7 && (
+              <a href="/#service-areas" class="block px-4 py-2 text-sm text-gray-500 hover:bg-gray-50 italic">
+                +{areaLinks.length - 7} more →
+              </a>
+            )}
+          </div>
+        </div>
+      </div>
+
+      <a href="/about" class="nav-link">About</a>
+      <a href="/contact" class="nav-link">Contact</a>
+      <a
+        href="/contact"
+        class="px-3 py-2 rounded-lg text-sm font-bold border-2 transition-colors"
+        style="border-color: var(--color-brand); color: var(--color-brand)"
+      >
+        Get a Quote
+      </a>
+    </div>
+
+    <div class="flex items-center gap-2">
+      <a
+        href={telHref}
+        class="hidden sm:inline-block text-sm font-bold px-4 py-2 rounded-lg text-white transition-colors"
+        style={`background-color: var(--color-brand)`}
+      >
+        {site.business.phone}
+      </a>
+      <button
+        id="mobile-menu-btn"
+        type="button"
+        aria-label="Open menu"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+        class="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg text-gray-700 hover:bg-gray-100"
+      >
+        <svg id="menu-icon-open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+        <svg id="menu-icon-close" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <div id="mobile-menu" class="hidden md:hidden border-t border-gray-100 bg-white">
+    <div class="px-4 py-4 space-y-1 max-h-[80vh] overflow-y-auto">
+      <p class="px-3 py-1 text-xs font-semibold uppercase tracking-wider text-gray-400">Services</p>
+      <a href="/services" class="block px-3 py-2 rounded-lg text-sm text-gray-500 italic hover:bg-gray-50">All services</a>
+      {site.services.map((s) => (
+        <a href={`/services/${s.slug}`} class="block px-3 py-2 rounded-lg text-sm text-gray-700 hover:bg-gray-50">{s.icon} {s.name}</a>
+      ))}
+      <div class="border-t border-gray-100 my-2"></div>
+      <p class="px-3 py-1 text-xs font-semibold uppercase tracking-wider text-gray-400">Service Areas</p>
+      {areaLinks.map((area) => (
+        <a
+          href={area.href}
+          class="block px-3 py-2 rounded-lg text-sm text-gray-700 hover:bg-gray-50"
+        >
+          {area.name}
+        </a>
+      ))}
+      <div class="border-t border-gray-100 my-2"></div>
+      <a href="/about" class="block px-3 py-3 rounded-lg text-base font-medium text-gray-800 hover:bg-gray-50">About</a>
+      <a href="/contact" class="block px-3 py-3 rounded-lg text-base font-medium text-gray-800 hover:bg-gray-50">Contact</a>
+      <a
+        href={telHref}
+        class="block mt-3 text-center px-4 py-3 rounded-lg text-white font-bold"
+        style={`background-color: var(--color-brand)`}
+      >
+        Call {site.business.phone}
+      </a>
+    </div>
+  </div>
+</header>
+
+<style>
+  .nav-link {
+    position: relative;
+    color: #1f2937;
+    transition: color 0.15s ease;
+  }
+  .nav-link:hover {
+    color: #030712;
+  }
+  .nav-dropdown {
+    position: relative;
+  }
+  .nav-dropdown-panel {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin-top: 12px;
+    min-width: 240px;
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    box-shadow: 0 12px 32px rgba(0,0,0,0.08);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-4px);
+    transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease;
+    z-index: 60;
+  }
+  .nav-dropdown:hover .nav-dropdown-panel,
+  .nav-dropdown:focus-within .nav-dropdown-panel {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+  /* invisible bridge so the dropdown doesn't close in the gap */
+  .nav-dropdown::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    height: 16px;
+  }
+  /* §6 WCAG 2.2 AA — reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .nav-dropdown-panel {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  const btn = document.getElementById('mobile-menu-btn');
+  const menu = document.getElementById('mobile-menu');
+  const iconOpen = document.getElementById('menu-icon-open');
+  const iconClose = document.getElementById('menu-icon-close');
+  btn?.addEventListener('click', () => {
+    const isOpen = !menu?.classList.contains('hidden');
+    menu?.classList.toggle('hidden');
+    iconOpen?.classList.toggle('hidden');
+    iconClose?.classList.toggle('hidden');
+    btn.setAttribute('aria-expanded', String(!isOpen));
+    btn.setAttribute('aria-label', isOpen ? 'Open menu' : 'Close menu');
+  });
+</script>

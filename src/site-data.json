@@ -1,0 +1,181 @@
+{
+  "_sample": true,
+  "slug": "sample-trade-co",
+  "business": {
+    "name": "Ridgeline Home Services",
+    "trade": "Plumbing",
+    "tagline": "Sample Data — Replace Before Any Client Build",
+    "pitch": "This is the demo record the template ships with so it builds and previews out of the box. Replace the whole file with the client's own site-data.json.",
+    "phone": "(215) 555-0100",
+    "email": "hello@ridgeline.test",
+    "address": "Philadelphia, PA",
+    "primaryCity": "Philadelphia",
+    "serviceAreas": [
+      "Philadelphia",
+      "Bucks County"
+    ],
+    "heroImage": null,
+    "hours": [
+      {
+        "days": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday"
+        ],
+        "opens": "08:00",
+        "closes": "17:00"
+      },
+      {
+        "days": [
+          "Saturday"
+        ],
+        "opens": "09:00",
+        "closes": "13:00"
+      }
+    ],
+    "closedDays": [
+      "Sunday"
+    ],
+    "reviews": null
+  },
+  "colors": {
+    "primary": "#e8520a",
+    "navy": "#1e3a5f",
+    "accent": ""
+  },
+  "about": {
+    "ownerName": "Sample Owner",
+    "yearsInBusiness": 0,
+    "story": "Sample owner story. The real one comes from the client intake and is written by the delivery routine, not by hand in this file. It runs a few sentences and explains who runs the business and how they work."
+  },
+  "seo": {
+    "siteUrl": "https://demo.warleyd.com",
+    "description": "Sample meta description for the WarleyD client site template. Replace this file with real client data before building any client site.",
+    "titleSuffix": "| Ridgeline Home Services",
+    "ogImage": null
+  },
+  "home": {
+    "aboutParagraph": "Sample home-page intro paragraph. This is where the business explains, in its own words, what it does and the area it covers. The delivery routine writes this from the client's intake.",
+    "ctaBullets": [
+      "Sample bullet one — a real reason to call this business",
+      "Sample bullet two — something the intake actually supports",
+      "Sample bullet three — no invented claims"
+    ],
+    "stats": [
+      "Sample Badge One",
+      "Sample Badge Two",
+      "Sample Badge Three"
+    ],
+    "gallery": []
+  },
+  "services": [
+    {
+      "name": "Sample Service One",
+      "slug": "sample-service-one",
+      "icon": "🔧",
+      "description": "One-line description of the first service, as it appears on the service card.",
+      "image": null,
+      "detail": {
+        "intro": "Sample intro paragraph for this service page. The real copy explains the work in the client's own voice, references the local area, and is long enough to carry the page on its own.",
+        "whatsIncluded": [
+          "Sample line describing something included in the job",
+          "Sample line describing another included item",
+          "Sample line describing a third included item"
+        ],
+        "process": [
+          "Sample step one of how the work is carried out",
+          "Sample step two of how the work is carried out",
+          "Sample step three of how the work is carried out"
+        ],
+        "commonSigns": [
+          "Sample sign that a customer needs this service",
+          "Sample second sign a customer might recognise"
+        ],
+        "faq": [
+          {
+            "q": "Sample question about this service?",
+            "a": "Sample answer. Real answers are specific, local, and honest about what the business will and will not do."
+          }
+        ]
+      }
+    },
+    {
+      "name": "Sample Service Two",
+      "slug": "sample-service-two",
+      "icon": "🚿",
+      "description": "One-line description of the second service, as it appears on the service card.",
+      "image": null,
+      "detail": {
+        "intro": "Sample intro paragraph for the second service page. Each service gets its own unique body copy so no two routes in the built site are ever the same.",
+        "whatsIncluded": [
+          "Sample included item for the second service",
+          "Sample second included item"
+        ],
+        "process": [
+          "Sample step one for the second service",
+          "Sample step two for the second service"
+        ],
+        "commonSigns": [
+          "Sample sign relevant to the second service"
+        ],
+        "faq": [
+          {
+            "q": "Sample question about the second service?",
+            "a": "Sample answer for the second service, distinct from every other answer in the file."
+          }
+        ]
+      }
+    }
+  ],
+  "locations": [
+    {
+      "city": "Philadelphia",
+      "slug": "philadelphia",
+      "neighborhoods": [
+        "Sample Neighborhood",
+        "Another Neighborhood"
+      ],
+      "image": null,
+      "body": "Sample city page body copy for the primary city. Real location copy references streets, housing stock, soil, and the conditions that actually shape the work in that place, and it is unique to this city."
+    },
+    {
+      "city": "Bucks County",
+      "slug": "bucks-county",
+      "neighborhoods": [
+        "Sample Township",
+        "Sample Borough"
+      ],
+      "image": null,
+      "body": "Sample city page body copy for the second area. It must differ from every other location entry — duplicate city pages are the fastest way to get a small local site ignored by search engines."
+    }
+  ],
+  "pages": {
+    "about": {
+      "images": [],
+      "sections": [
+        "Sample about-page section one. The delivery routine writes four of these from the intake, covering who the business is and how it got started.",
+        "Sample about-page section two, covering how the business approaches its work and what it will not take on.",
+        "Sample about-page section three, covering what happens when a customer first makes contact.",
+        "Sample about-page section four, covering why a customer would choose this business over the next one."
+      ]
+    },
+    "services": {
+      "faq": [
+        {
+          "q": "Sample trade-level question that spans all services?",
+          "a": "Sample answer. These appear on the services index page and feed the FAQPage structured data."
+        }
+      ]
+    },
+    "contact": {
+      "responseLine": "Sample contact response line describing how to get in touch and what happens next. It should promise only what the business actually does.",
+      "expectBullets": [
+        "Sample step one of what a customer can expect after making contact",
+        "Sample step two of what a customer can expect",
+        "Sample step three of what a customer can expect"
+      ]
+    }
+  }
+}

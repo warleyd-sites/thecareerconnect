@@ -1,0 +1,85 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Nav from "@/components/Nav.astro";
+import Footer from "@/components/Footer.astro";
+import { site, telHref, hasYears } from "@/config/site";
+import SiteImage from "@/components/SiteImage.astro";
+import { presentImages } from "@/lib/images";
+
+const sections = site.pages.about.sections;
+const images = presentImages(site.pages.about.images);
+---
+
+<Layout
+  title={`About ${site.about.ownerName}`}
+  description={`${site.about.story.slice(0, 155)}…`}
+>
+  <Nav />
+
+  <section class="py-12 px-4" style="background-color: var(--color-navy)">
+    <div class="max-w-6xl mx-auto">
+      <h1 class="font-display text-4xl font-bold text-white mb-2">About Us</h1>
+      <p class="text-gray-300">{site.business.name} — {site.business.primaryCity}</p>
+    </div>
+  </section>
+
+  <section class="py-16 px-4">
+    <div class="max-w-3xl mx-auto">
+      <h2 class="font-display text-3xl font-bold mb-6" style="color: var(--color-navy)">
+        Meet {site.about.ownerName}
+      </h2>
+      <p class="text-gray-700 text-lg leading-relaxed mb-10">{site.about.story}</p>
+
+      <div class="grid grid-cols-2 sm:grid-cols-3 gap-6 my-10 bg-gray-50 rounded-2xl p-8">
+        {hasYears && (
+          <div class="text-center">
+            <div class="font-display text-3xl font-bold" style="color: var(--color-brand)">{site.about.yearsInBusiness}+</div>
+            <div class="text-xs text-gray-600 mt-1">Years Experience</div>
+          </div>
+        )}
+        <div class="text-center">
+          <div class="font-display text-3xl font-bold" style="color: var(--color-brand)">{site.locations.length}</div>
+          <div class="text-xs text-gray-600 mt-1">Areas Served</div>
+        </div>
+        <div class="text-center">
+          <div class="font-display text-3xl font-bold" style="color: var(--color-brand)">{site.services.length}</div>
+          <div class="text-xs text-gray-600 mt-1">Services Offered</div>
+        </div>
+      </div>
+
+      {images.length > 0 && (
+        <div class="grid sm:grid-cols-2 gap-4 my-10">
+          {images.map((img) => (
+            <SiteImage
+              image={img}
+              class="h-56 w-full object-cover rounded-xl"
+              sizes="(min-width: 640px) 50vw, 100vw"
+            />
+          ))}
+        </div>
+      )}
+
+      <!-- The about narrative — one block per `pages.about.sections` entry -->
+      <div class="space-y-6">
+        {sections.map((section) => (
+          <p class="text-gray-700 leading-relaxed">{section}</p>
+        ))}
+      </div>
+
+      <div class="mt-10 flex flex-wrap gap-4">
+        <a
+          href={telHref}
+          class="px-6 py-3 rounded-lg text-white font-bold transition-opacity hover:opacity-90"
+          style="background-color: var(--color-brand)"
+        >
+          Call {site.business.phone}
+        </a>
+        <a href="/contact" class="px-6 py-3 rounded-lg font-bold border-2 border-gray-200 text-gray-700 hover:border-gray-400 transition-colors">
+          Request a Quote
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+</Layout>

@@ -1,0 +1,194 @@
+[
+  {
+    "out": "home-hero.jpg",
+    "source": "commons",
+    "usedFor": "home hero",
+    "alt": "A mower on a freshly cut suburban lawn at dusk",
+    "force": true,
+    "title": "Evening lawn care in a suburban yard with a mower positioned on a freshly cut lawn.jpg"
+  },
+  {
+    "out": "home-gallery-1.jpg",
+    "source": "openverse",
+    "q": "garden path landscaping shrubs",
+    "usedFor": "home gallery",
+    "alt": "A garden walkway bordered by trimmed shrubs"
+  },
+  {
+    "out": "home-gallery-2.jpg",
+    "source": "openverse",
+    "q": "back garden lawn",
+    "usedFor": "home gallery",
+    "alt": "An open back lawn with mature trees",
+    "license": "cc0,pdm,by,by-sa",
+    "alt_q": [
+      "residential backyard lawn",
+      "green lawn garden"
+    ]
+  },
+  {
+    "out": "home-gallery-3.jpg",
+    "source": "openverse",
+    "q": "flower bed garden border mulch",
+    "usedFor": "home gallery",
+    "alt": "A mulched planting bed with flowering plants along a lawn edge",
+    "alt_q": [
+      "flower bed garden",
+      "garden border flowers",
+      "mulch flowerbed"
+    ]
+  },
+  {
+    "out": "about-1.jpg",
+    "source": "commons",
+    "usedFor": "about",
+    "alt": "An ornamental shrub border along a maintained lawn",
+    "force": true,
+    "title": "Downhills Park Ornamental Garden shrub border Tottenham London 1.jpg"
+  },
+  {
+    "out": "about-2.jpg",
+    "source": "openverse",
+    "q": "garden tools wheelbarrow",
+    "usedFor": "about",
+    "alt": "Garden tools and a wheelbarrow on a lawn"
+  },
+  {
+    "out": "service-lawn-mowing-edging.jpg",
+    "source": "openverse",
+    "q": "lawn mower cutting grass",
+    "usedFor": "service: Lawn Mowing & Edging",
+    "alt": "A mower cutting a strip of green lawn",
+    "alt_q": [
+      "lawn mower",
+      "mowing grass",
+      "mowed lawn"
+    ]
+  },
+  {
+    "out": "service-overgrown-yard-cleanup.jpg",
+    "source": "openverse",
+    "q": "overgrown weeds tall grass garden",
+    "usedFor": "service: Overgrown Yard Cleanup",
+    "alt": "An overgrown yard with tall grass and weeds",
+    "alt_q": [
+      "overgrown garden",
+      "tall grass weeds",
+      "abandoned garden overgrown"
+    ]
+  },
+  {
+    "out": "service-mulching-bed-creation.jpg",
+    "source": "commons",
+    "usedFor": "service: Mulching & Bed Creation",
+    "alt": "Fresh mulch spread around ornamental grasses in a planting bed",
+    "force": true,
+    "title": "The People's Garden (20221021-FPAC-LSC-0044).jpg"
+  },
+  {
+    "out": "service-shrub-trimming-tree-removal.jpg",
+    "source": "openverse",
+    "q": "hedge trimmer bush",
+    "usedFor": "service: Shrub Trimming & Small Tree Removal",
+    "alt": "Hedge being trimmed with shears",
+    "alt_q": [
+      "pruning hedge garden",
+      "trimming shrub"
+    ],
+    "license": "cc0,pdm,by,by-sa"
+  },
+  {
+    "out": "service-landscape-planting-renovation.jpg",
+    "source": "openverse",
+    "q": "planting shrub garden bed",
+    "usedFor": "service: Landscape Planting & Renovation",
+    "alt": "New plants being set into prepared garden soil",
+    "license": "cc0,pdm,by,by-sa",
+    "alt_q": [
+      "garden planting new plants",
+      "landscaping planting"
+    ]
+  },
+  {
+    "out": "service-aeration-seeding-fertilization.jpg",
+    "source": "openverse",
+    "q": "green grass lawn close up",
+    "usedFor": "service: Aeration, Seeding & Fertilization",
+    "alt": "Close view of dense green turf grass"
+  },
+  {
+    "out": "service-weed-pest-control.jpg",
+    "source": "openverse",
+    "q": "dandelion weeds in lawn",
+    "usedFor": "service: Weed & Pest Control",
+    "alt": "Dandelions growing through a lawn",
+    "alt_q": [
+      "dandelion lawn",
+      "weeds grass",
+      "dandelion"
+    ]
+  },
+  {
+    "out": "service-leaf-cleanup-junk-removal.jpg",
+    "source": "openverse",
+    "q": "autumn leaves rake yard",
+    "usedFor": "service: Leaf Cleanup & Junk Removal",
+    "alt": "Fallen autumn leaves being raked from a lawn",
+    "alt_q": [
+      "autumn leaves lawn",
+      "raking leaves",
+      "fallen leaves yard"
+    ]
+  },
+  {
+    "out": "service-snow-plowing-ice-management.jpg",
+    "source": "commons",
+    "usedFor": "service: Snow Plowing & Ice Management",
+    "alt": "A tractor plowing snow from a residential driveway",
+    "force": true,
+    "title": "`Glen Mastin Plowing my Driveway 4146 (5349062539).jpg"
+  },
+  {
+    "out": "service-gutter-cleaning.jpg",
+    "source": "commons",
+    "usedFor": "service: Gutter Cleaning",
+    "alt": "A cleared roof gutter run along a building eave",
+    "force": true,
+    "title": "After Repair- Gutter at Historic Gymnasium (3d72a48e-155d-4519-3ed2-1889be2eb425).JPG"
+  },
+  {
+    "out": "location-quakertown.jpg",
+    "source": "commons",
+    "title": "House Quakertown PA 3.jpg",
+    "usedFor": "location: Quakertown",
+    "alt": "A house on a residential street in Quakertown, Pennsylvania"
+  },
+  {
+    "out": "location-richlandtown.jpg",
+    "source": "commons",
+    "title": "Richlandtown, PA borough hall along PA 212 eb, Sept. 2023.jpg",
+    "usedFor": "location: Richlandtown",
+    "alt": "Richlandtown borough hall along Pennsylvania Route 212"
+  },
+  {
+    "out": "location-bucks-county.jpg",
+    "source": "commons",
+    "title": "Nockamixon State Park in Quakertown I.jpg",
+    "usedFor": "location: Bucks County",
+    "alt": "Lake Nockamixon in Upper Bucks County, Pennsylvania"
+  },
+  {
+    "out": "location-lehigh-county.jpg",
+    "source": "commons",
+    "title": "Coopersburg Historic District 1.jpg",
+    "usedFor": "location: Lehigh County",
+    "alt": "The historic district in Coopersburg, Lehigh County, Pennsylvania"
+  },
+  {
+    "out": "location-northampton-county.jpg",
+    "source": "commons",
+    "title": "Hellertown station.jpg",
+    "usedFor": "location: Northampton County",
+    "alt": "The former railway station in Hellertown, Northampton County, Pennsylvania"
+  }
+]

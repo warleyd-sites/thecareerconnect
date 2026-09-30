@@ -1,0 +1,180 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Nav from "@/components/Nav.astro";
+import Footer from "@/components/Footer.astro";
+import { site, telHref, areaLinks } from "@/config/site";
+import SiteImage from "@/components/SiteImage.astro";
+
+export function getStaticPaths() {
+  return site.services.map((svc) => ({
+    params: { service: svc.slug },
+    props: { svc },
+  }));
+}
+
+const { svc } = Astro.props;
+const detail = svc.detail ?? {};
+const faq = detail.faq ?? [];
+const others = site.services.filter((s) => s.slug !== svc.slug);
+const related = others.slice(0, 4);
+const rest = others.slice(4);
+---
+
+<Layout
+  title={`${svc.name} in ${site.business.primaryCity}`}
+  description={`${site.business.name} provides ${svc.name.toLowerCase()} in ${site.business.serviceAreas.join(", ")}. Call ${site.business.phone}.`}
+  faq={faq}
+>
+  <Nav />
+
+  <section class="py-12 px-4" style="background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-navy-dark) 100%)">
+    <div class="max-w-6xl mx-auto">
+      <p class="text-sm font-semibold uppercase tracking-widest mb-2" style="color: var(--color-brand)">
+        {site.business.trade} Services
+      </p>
+      <h1 class="font-display text-4xl sm:text-5xl font-bold text-white mb-3 flex items-center gap-3">
+        <span>{svc.icon}</span><span>{svc.name}</span>
+      </h1>
+      <p class="text-lg text-gray-300 max-w-2xl">{svc.description}</p>
+    </div>
+  </section>
+
+  <SiteImage
+    image={svc.image}
+    class="w-full h-56 sm:h-80 object-cover"
+    sizes="100vw"
+  />
+
+  <section class="py-16 px-4">
+    <div class="max-w-6xl mx-auto grid lg:grid-cols-3 gap-12">
+      <div class="lg:col-span-2 space-y-10">
+        {detail.intro && (
+          <div>
+            <p class="text-gray-700 leading-relaxed text-lg">{detail.intro}</p>
+          </div>
+        )}
+
+        {detail.whatsIncluded && detail.whatsIncluded.length > 0 && (
+          <div>
+            <h2 class="font-display text-2xl font-bold mb-4" style="color: var(--color-navy)">
+              What's included
+            </h2>
+            <ul class="space-y-3">
+              {detail.whatsIncluded.map((item) => (
+                <li class="flex items-start gap-3 text-gray-700">
+                  <span style="color: var(--color-brand)" class="mt-1 font-bold">✓</span>
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {detail.process && detail.process.length > 0 && (
+          <div>
+            <h2 class="font-display text-2xl font-bold mb-4" style="color: var(--color-navy)">
+              How it works
+            </h2>
+            <ol class="space-y-4">
+              {detail.process.map((step, i) => (
+                <li class="flex gap-4">
+                  <span class="flex-shrink-0 w-8 h-8 rounded-full text-white font-bold flex items-center justify-center text-sm" style="background-color: var(--color-brand)">{i + 1}</span>
+                  <span class="text-gray-700 leading-relaxed pt-1">{step}</span>
+                </li>
+              ))}
+            </ol>
+          </div>
+        )}
+
+        {detail.commonSigns && detail.commonSigns.length > 0 && (
+          <div class="bg-gray-50 rounded-2xl p-7" style="border-left: 4px solid var(--color-accent, var(--color-brand))">
+            <h3 class="font-display text-xl font-bold mb-3" style="color: var(--color-navy)">
+              Signs you need this
+            </h3>
+            <ul class="space-y-2">
+              {detail.commonSigns.map((sign) => (
+                <li class="text-gray-700 text-sm">• {sign}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {faq.length > 0 && (
+          <div>
+            <h2 class="font-display text-2xl font-bold mb-6" style="color: var(--color-navy)">
+              Frequently asked
+            </h2>
+            <div class="space-y-5">
+              {faq.map((qa) => (
+                <div>
+                  <h3 class="font-semibold text-gray-900 mb-1">{qa.q}</h3>
+                  <p class="text-gray-600 leading-relaxed text-sm">{qa.a}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+
+      <aside class="lg:sticky lg:top-24 self-start space-y-6">
+        <div class="bg-white border-2 rounded-2xl p-6" style="border-color: var(--color-brand)">
+          <h3 class="font-display text-xl font-bold mb-4" style="color: var(--color-navy)">
+            Request a quote
+          </h3>
+          <a
+            href={telHref}
+            class="block text-center px-5 py-3 rounded-lg text-white font-bold mb-3"
+            style="background-color: var(--color-brand)"
+          >
+            Call {site.business.phone}
+          </a>
+          <a href="/contact" class="block text-center px-5 py-3 rounded-lg border-2 font-semibold text-sm transition-colors" style="border-color: var(--color-navy); color: var(--color-navy)">
+            Request a quote online
+          </a>
+        </div>
+
+        <div class="bg-gray-50 rounded-2xl p-6">
+          <h4 class="text-xs font-semibold uppercase tracking-wider text-gray-600 mb-3">Service areas</h4>
+          <ul class="space-y-1">
+            {areaLinks.map((area) => (
+              <li>
+                <a href={area.href} class="text-sm text-gray-700 hover:underline">{area.name}</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="py-12 px-4 bg-gray-50 border-t border-gray-200">
+    <div class="max-w-6xl mx-auto">
+      <h3 class="font-display text-xl font-bold mb-4" style="color: var(--color-navy)">
+        Other services we offer
+      </h3>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        {related.map((s) => (
+            <a href={`/services/${s.slug}`} class="group block rounded-xl overflow-hidden bg-white border border-gray-200 hover:shadow-md hover:border-gray-300 transition-all">
+              <SiteImage
+                image={s.image}
+                class="h-32 w-full object-cover"
+                sizes="(min-width: 1024px) 280px, (min-width: 640px) 45vw, 100vw"
+              />
+              <div class="p-4">
+                <div class="text-sm font-semibold group-hover:underline" style="color: var(--color-navy)">{s.icon} {s.name}</div>
+              </div>
+            </a>
+        ))}
+      </div>
+      <div class="flex flex-wrap gap-3">
+        {rest.map((s) => (
+          <a href={`/services/${s.slug}`} class="px-4 py-2 rounded-full bg-white border border-gray-200 text-sm text-gray-700 hover:border-gray-400 hover:text-gray-900 transition-colors">
+            {s.icon} {s.name}
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+</Layout>

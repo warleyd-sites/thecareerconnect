@@ -1,0 +1,15 @@
+# Drives ./PRODUCTION_BAR.md via ~/.claude/templates/production-bar/tools/render.mjs
+
+project: warleyd-client-template
+surface: client-template
+stack:
+  framework: astro
+  styling: tailwind
+  state: islands
+  i18n: false
+  mobile: web-only
+perf_profile: marketing-page
+extra_sections:
+  - marketing-conversion
+exclude_sections:
+  - payments

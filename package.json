@@ -1,0 +1,23 @@
+{
+  "name": "warleyd-client-template",
+  "type": "module",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "3.2.1",
+    "@astrojs/tailwind": "^5.1.0",
+    "@astrojs/vercel": "^7.8.0",
+    "astro": "^4.15.0",
+    "resend": "^4.0.0",
+    "tailwindcss": "^3.4.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.0",
+    "vitest": "^4.1.8"
+  }
+}
