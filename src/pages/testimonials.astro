@@ -1,0 +1,31 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Nav from "@/components/Nav.astro";
+import Footer from "@/components/Footer.astro";
+import PageHeader from "@/components/PageHeader.astro";
+import TestimonialVideo from "@/components/TestimonialVideo.astro";
+import CtaBand from "@/components/CtaBand.astro";
+import { site } from "@/config/site";
+
+const t = site.testimonials;
+---
+
+<Layout title={t.heading} description={`${t.lede} Video stories from ${t.items.map((i) => i.name).join(", ")}.`}>
+  <Nav />
+  <main id="main">
+    <PageHeader title={t.heading} lede={t.lede} />
+    <section class="py-16 px-4 sm:px-6">
+      <div class="max-w-6xl mx-auto">
+        <figure class="max-w-3xl">
+          <blockquote class="font-body italic text-2xl sm:text-3xl leading-snug text-navy">“{site.about.ownerQuote}”</blockquote>
+          <figcaption class="mt-4 font-display"><span class="font-bold text-navy">{site.about.ownerName}</span><span class="text-gray-700">, {site.about.ownerTitle}</span></figcaption>
+        </figure>
+        <div class="mt-14 grid md:grid-cols-2 lg:grid-cols-3 gap-10">
+          {t.items.map((item) => <TestimonialVideo item={item} />)}
+        </div>
+      </div>
+    </section>
+    <CtaBand />
+  </main>
+  <Footer />
+</Layout>

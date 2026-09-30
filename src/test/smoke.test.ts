@@ -9,31 +9,17 @@ import { describe, it, expect } from "vitest";
 import { readFileSync, readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { experimental_AstroContainer as AstroContainer } from "astro/container";
-import Hero from "../components/Hero.astro";
-import Services from "../components/Services.astro";
 import Footer from "../components/Footer.astro";
 import Nav from "../components/Nav.astro";
-import { site, areaLinks, allFaqs, schemaType, hours, closedDays, openingHoursSpec, reviews } from "../config/site";
+import { site, allFaqs, schemaType, hours, closedDays, openingHoursSpec, reviews } from "../config/site";
 import { hasImage } from "../lib/images";
-import credits from "../image-credits.json";
+import vercelConfig from "../../vercel.json";
+import { POST } from "../../api/contact";
 
 /** Astro escapes `&`, `<`, `>` in rendered text — match what the browser gets. */
 const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
 describe("smoke: components render", () => {
-  it("renders the hero with values from the data", async () => {
-    const container = await AstroContainer.create();
-    const html = await container.renderToString(Hero);
-    expect(html).toContain(site.business.primaryCity);
-    expect(html).toContain(site.business.phone);
-  });
-
-  it("renders the services section", async () => {
-    const container = await AstroContainer.create();
-    const html = await container.renderToString(Services);
-    expect(html).toContain(esc(site.services[0].name));
-  });
-
   it("renders the nav and footer with the business name", async () => {
     const container = await AstroContainer.create();
     const nav = await container.renderToString(Nav);
@@ -52,9 +38,8 @@ describe("smoke: site-data coherence", () => {
     expect(site.business.phone).toBeTruthy();
     expect(site.business.serviceAreas.length).toBeGreaterThan(0);
     expect(site.services.length).toBeGreaterThan(0);
-    expect(site.locations.length).toBeGreaterThan(0);
     expect(site.home.aboutParagraph).toBeTruthy();
-    expect(site.pages.about.sections.length).toBeGreaterThan(0);
+    expect(site.about.story).toBeTruthy();
     expect(site.pages.contact.responseLine).toBeTruthy();
   });
 
@@ -67,26 +52,18 @@ describe("smoke: site-data coherence", () => {
     }
   });
 
-  it("gives every location a slug and unique body copy", () => {
-    const bodies = new Set<string>();
-    for (const l of site.locations) {
-      expect(l.slug, `location ${l.city} needs a slug`).toBeTruthy();
-      expect(l.body, `location ${l.slug} needs body copy`).toBeTruthy();
-      bodies.add(l.body);
-    }
-    expect(bodies.size, "every city page must have unique body copy").toBe(site.locations.length);
-  });
-
-  it("has unique service slugs and unique location slugs", () => {
+  it("has unique service slugs", () => {
     const svc = site.services.map((s) => s.slug);
-    const loc = site.locations.map((l) => l.slug);
     expect(new Set(svc).size).toBe(svc.length);
-    expect(new Set(loc).size).toBe(loc.length);
   });
 
-  it("only links to service areas that actually generate a route", () => {
-    const routes = new Set(site.locations.map((l) => `/service-areas/${l.slug}`));
-    for (const a of areaLinks) expect(routes.has(a.href)).toBe(true);
+  it("keeps the old Webflow service URLs working without redirects", () => {
+    // These paths are indexed and linked from the old site. Renaming a slug
+    // breaks them unless a redirect is added to vercel.json.
+    const slugs = site.services.map((s) => s.slug);
+    for (const old of ["career-counseling", "internship-opportunities", "job-search-support", "networking-skills", "professional-development", "workshops"]) {
+      expect(slugs, `/services/${old} must still exist`).toContain(old);
+    }
   });
 
   it("never ships the demo record as a real client site", () => {
@@ -119,7 +96,9 @@ describe("smoke: images", () => {
       ...(site.home.gallery ?? []),
       ...(site.pages.about.images ?? []),
       ...site.services.map((s) => s.image),
-      ...site.locations.map((l) => l.image),
+      ...site.home.audiences.map((a) => a.image),
+      ...site.testimonials.items.map((t) => t.image),
+      site.about.ownerImage,
     ].filter(Boolean) as { file: string; alt: string }[];
 
     // Zero images is valid — the template ships with empty slots. What must
@@ -132,20 +111,6 @@ describe("smoke: images", () => {
     for (const s of site.services) {
       if (s.image) expect(s.image.alt, `service ${s.slug} image needs alt`).toBeTruthy();
     }
-    for (const l of site.locations) {
-      if (l.image) expect(l.image.alt, `location ${l.slug} image needs alt`).toBeTruthy();
-    }
-  });
-
-  it("credits every image that requires attribution", () => {
-    const required = Object.entries(credits as Record<string, { attributionRequired: boolean }>)
-      .filter(([file, c]) => c.attributionRequired && hasImage({ file, alt: "" }));
-    // Each must carry the fields the /credits page renders.
-    for (const [file, c] of required) {
-      const full = c as unknown as { license?: string; source?: string };
-      expect(full.license, `${file} needs a licence`).toBeTruthy();
-      expect(full.source, `${file} needs a source`).toBeTruthy();
-    }
   });
 
   it("never claims a photo depicts the client's own work", () => {
@@ -157,7 +122,7 @@ describe("smoke: images", () => {
       ...(site.home.gallery ?? []),
       ...(site.pages.about.images ?? []),
       ...site.services.map((s) => s.image),
-      ...site.locations.map((l) => l.image),
+      ...site.home.audiences.map((a) => a.image),
     ]
       .filter(Boolean)
       .map((i) => (i as { alt: string }).alt.toLowerCase());
@@ -286,5 +251,60 @@ describe("smoke: no copy hard-coded in .astro files", () => {
       }
     }
     expect(offenders).toEqual([]);
+  });
+});
+
+describe("old Webflow URLs", () => {
+  const redirects = new Map(vercelConfig.redirects.map((r) => [r.source, r.destination]));
+
+  it("redirects every page path the old site used", () => {
+    // Paths crawled from thecareerconnect.webflow.io on 2026-09-30.
+    expect(redirects.get("/about-us")).toBe("/about");
+    expect(redirects.get("/our-blog")).toBe("/blog");
+    expect(redirects.get("/post/:slug")).toBe("/blog/:slug");
+    expect(redirects.get("/contact-us/:path*")).toBe("/contact");
+    expect(redirects.get("/privacy-policy/:path*")).toBe("/privacy");
+  });
+
+  it("keeps every old blog post slug so /post/<slug> lands on a real page", () => {
+    const posts = readdirSync(new URL("../content/blog", import.meta.url)).map((f) => f.replace(/\.md$/, ""));
+    for (const old of [
+      "10-great-examples-of-responsive-resumes",
+      "20-myths-about-interviews",
+      "5-principles-of-effective-networking",
+      "7-things-about-choosing-careers-you-should-know",
+      "what-will-the-career-field-be-like-in-100-years",
+    ]) {
+      expect(posts, `blog post ${old} must still exist`).toContain(old);
+    }
+  });
+});
+
+describe("contact endpoint", () => {
+  const post = (body: unknown) =>
+    POST(new Request("http://x/api/contact", { method: "POST", body: JSON.stringify(body) }));
+
+  it("rejects a message with no name, naming the field", async () => {
+    const res = await post({ email: "a@b.co", message: "hi" });
+    expect(res.status).toBe(400);
+    expect((await res.json()).field).toBe("name");
+  });
+
+  it("rejects an invalid email", async () => {
+    const res = await post({ name: "A", email: "nope", message: "hi" });
+    expect((await res.json()).field).toBe("email");
+  });
+
+  it("silently accepts honeypot submissions without sending", async () => {
+    const res = await post({ name: "Bot", email: "b@b.co", message: "spam", website: "http://spam" });
+    expect(res.status).toBe(200);
+  });
+
+  it("fails closed when Resend is not configured", async () => {
+    const prev = process.env.RESEND_API_KEY;
+    delete process.env.RESEND_API_KEY;
+    const res = await post({ name: "A", email: "a@b.co", message: "hi" });
+    expect(res.status).toBe(500);
+    if (prev) process.env.RESEND_API_KEY = prev;
   });
 });

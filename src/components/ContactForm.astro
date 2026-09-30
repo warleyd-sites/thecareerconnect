@@ -1,231 +1,174 @@
 ---
-import { site, telHref } from "@/config/site";
+import { site, telHref, fill } from "@/config/site";
+
+const f = site.form;
+const input =
+  "w-full rounded-lg border border-gray-300 bg-white px-4 py-3 font-display text-[0.95rem] text-ink focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand";
+const label = "block font-display text-sm font-semibold text-navy mb-1.5";
 ---
 
-<div class="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
-  <h3 class="font-display text-2xl font-bold mb-6" style="color: var(--color-navy)">Request a Quote</h3>
+<div class="bg-white rounded-2xl p-6 sm:p-8 border border-gray-200 shadow-[0_20px_40px_-24px_rgb(5_38_73/0.35)]">
+  <h2 class="text-2xl font-bold text-navy">{f.heading}</h2>
+  <p class="mt-2 mb-6 text-[0.95rem] text-gray-700">{f.intro}</p>
 
-  <form id="contact-form" class="space-y-4">
-    <div>
-      <label for="contact-name" class="block text-sm font-semibold text-gray-700 mb-1">Your Name</label>
-      <input
-        type="text"
-        id="contact-name"
-        name="name"
-        required
-        autocomplete="name"
-        placeholder="John Smith"
-        aria-describedby="contact-name-error"
-        class="w-full rounded-lg border border-gray-200 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent transition-all"
-      />
-      <span id="contact-name-error" class="hidden text-xs text-red-600 mt-1 block" aria-live="polite"></span>
+  <form
+    id="contact-form"
+    class="space-y-4"
+    novalidate
+    data-sending={f.sending}
+    data-sent={f.sent}
+    data-send-another={f.sendAnother}
+    data-retry={f.retry}
+    data-submit={f.submit}
+    data-failed={fill(f.failed, { phone: site.business.phone })}
+    data-error-name={f.errors.name}
+    data-error-email={f.errors.email}
+    data-error-message={f.errors.message}
+  >
+    <div class="grid sm:grid-cols-2 gap-4">
+      <div>
+        <label for="cf-name" class={label}>{f.name}</label>
+        <input id="cf-name" name="name" type="text" required autocomplete="name" maxlength="120" aria-describedby="cf-name-error" class={input} />
+        <p id="cf-name-error" class="field-error hidden" aria-live="polite"></p>
+      </div>
+      <div>
+        <label for="cf-email" class={label}>{f.email}</label>
+        <input id="cf-email" name="email" type="email" required autocomplete="email" maxlength="200" aria-describedby="cf-email-error" class={input} />
+        <p id="cf-email-error" class="field-error hidden" aria-live="polite"></p>
+      </div>
+      <div>
+        <label for="cf-phone" class={label}>{f.phone}</label>
+        <input id="cf-phone" name="phone" type="tel" autocomplete="tel" maxlength="40" class={input} />
+      </div>
+      <div>
+        <label for="cf-role" class={label}>{f.role}</label>
+        <select id="cf-role" name="role" class={input}>
+          {f.roles.map((r) => <option value={r}>{r}</option>)}
+        </select>
+      </div>
     </div>
     <div>
-      <label for="contact-phone" class="block text-sm font-semibold text-gray-700 mb-1">Phone</label>
-      <input
-        type="tel"
-        id="contact-phone"
-        name="phone"
-        required
-        autocomplete="tel"
-        placeholder="(000) 000-0000"
-        aria-describedby="contact-phone-error"
-        class="w-full rounded-lg border border-gray-200 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent transition-all"
-      />
-      <span id="contact-phone-error" class="hidden text-xs text-red-600 mt-1 block" aria-live="polite"></span>
+      <label for="cf-org" class={label}>{f.organization}</label>
+      <input id="cf-org" name="organization" type="text" autocomplete="organization" maxlength="200" class={input} />
     </div>
     <div>
-      <label for="contact-message" class="block text-sm font-semibold text-gray-700 mb-1">What do you need?</label>
-      <textarea
-        id="contact-message"
-        name="message"
-        rows="3"
-        required
-        placeholder="Describe the issue or job..."
-        aria-describedby="contact-message-error"
-        class="w-full rounded-lg border border-gray-200 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent transition-all resize-y"
-      ></textarea>
-      <span id="contact-message-error" class="hidden text-xs text-red-600 mt-1 block" aria-live="polite"></span>
+      <label for="cf-message" class={label}>{f.message}</label>
+      <textarea id="cf-message" name="message" rows="4" required maxlength="5000" aria-describedby="cf-message-hint cf-message-error" class={`${input} resize-y`}></textarea>
+      <p id="cf-message-hint" class="mt-1 text-xs text-gray-600 font-display">{f.messageHint}</p>
+      <p id="cf-message-error" class="field-error hidden" aria-live="polite"></p>
+    </div>
+    {/* Honeypot: hidden from people, filled in by naive bots. */}
+    <div class="hidden" aria-hidden="true">
+      <label for="cf-website">Website</label>
+      <input id="cf-website" name="website" type="text" tabindex="-1" autocomplete="off" />
     </div>
 
-    <button
-      type="submit"
-      id="submit-btn"
-      class="w-full py-4 rounded-lg text-white font-bold text-base transition-all hover:opacity-90 disabled:opacity-60 disabled:cursor-not-allowed"
-      style="background-color: var(--color-brand)"
-    >
-      Send Request →
-    </button>
-
-    <p id="form-msg" role="status" aria-live="polite" class="text-center text-sm hidden"></p>
+    <button type="submit" id="cf-submit" class="btn-primary w-full disabled:opacity-60 disabled:cursor-not-allowed">{f.submit}</button>
+    <p id="cf-status" role="status" aria-live="polite" class="hidden text-center text-sm font-display font-semibold"></p>
   </form>
 
-  <p class="text-center text-gray-600 text-xs mt-4">
-    Or call us directly: <a href={telHref} class="font-semibold text-gray-600">{site.business.phone}</a>
+  <p class="text-center text-sm text-gray-700 mt-5 font-display">
+    <a href={telHref} class="hover:underline">{fill(f.orCall, { phone: site.business.phone })}</a>
   </p>
 </div>
 
+<style>
+  .field-error {
+    margin-top: 0.3rem;
+    font-family: "Montserrat", sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #b42318;
+  }
+</style>
+
 <script>
-  const form = document.getElementById("contact-form") as HTMLFormElement;
-  const btn = document.getElementById("submit-btn") as HTMLButtonElement;
-  const msg = document.getElementById("form-msg") as HTMLParagraphElement;
+  const form = document.getElementById("contact-form") as HTMLFormElement | null;
+  if (form) {
+    const d = form.dataset;
+    const btn = document.getElementById("cf-submit") as HTMLButtonElement;
+    const status = document.getElementById("cf-status") as HTMLParagraphElement;
+    const required = {
+      name: document.getElementById("cf-name") as HTMLInputElement,
+      email: document.getElementById("cf-email") as HTMLInputElement,
+      message: document.getElementById("cf-message") as HTMLTextAreaElement,
+    };
+    const messages: Record<keyof typeof required, string> = {
+      name: d.errorName ?? "",
+      email: d.errorEmail ?? "",
+      message: d.errorMessage ?? "",
+    };
+    const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  const fields = {
-    name: document.getElementById("contact-name") as HTMLInputElement,
-    phone: document.getElementById("contact-phone") as HTMLInputElement,
-    message: document.getElementById("contact-message") as HTMLTextAreaElement,
-  };
-
-  const errorSpans = {
-    name: document.getElementById("contact-name-error") as HTMLSpanElement,
-    phone: document.getElementById("contact-phone-error") as HTMLSpanElement,
-    message: document.getElementById("contact-message-error") as HTMLSpanElement,
-  };
-
-  const VALID_CLASSES = "border-green-400 ring-1 ring-green-400";
-  const INVALID_CLASSES = "border-red-400 ring-1 ring-red-400";
-  const DEFAULT_CLASSES = "border-gray-200";
-
-  function clearFieldState(el: HTMLInputElement | HTMLTextAreaElement, span: HTMLSpanElement) {
-    el.classList.remove(...VALID_CLASSES.split(" "), ...INVALID_CLASSES.split(" "));
-    el.classList.add(...DEFAULT_CLASSES.split(" "));
-    span.textContent = "";
-    span.classList.add("hidden");
-  }
-
-  function setFieldError(el: HTMLInputElement | HTMLTextAreaElement, span: HTMLSpanElement, message: string) {
-    el.classList.remove(...VALID_CLASSES.split(" "), ...DEFAULT_CLASSES.split(" "));
-    el.classList.add(...INVALID_CLASSES.split(" "));
-    span.textContent = message;
-    span.classList.remove("hidden");
-  }
-
-  function setFieldValid(el: HTMLInputElement | HTMLTextAreaElement, span: HTMLSpanElement) {
-    el.classList.remove(...INVALID_CLASSES.split(" "), ...DEFAULT_CLASSES.split(" "));
-    el.classList.add(...VALID_CLASSES.split(" "));
-    span.textContent = "";
-    span.classList.add("hidden");
-  }
-
-  function validateName(): boolean {
-    const val = fields.name.value.trim();
-    if (!val) {
-      setFieldError(fields.name, errorSpans.name, "Please enter your name.");
-      return false;
+    function setError(key: keyof typeof required, text: string | null) {
+      const el = required[key];
+      const span = document.getElementById(`cf-${key}-error`)!;
+      el.setAttribute("aria-invalid", text ? "true" : "false");
+      el.classList.toggle("border-red-600", Boolean(text));
+      span.textContent = text ?? "";
+      span.classList.toggle("hidden", !text);
     }
-    setFieldValid(fields.name, errorSpans.name);
-    return true;
-  }
 
-  function validatePhone(): boolean {
-    const digits = fields.phone.value.replace(/\D/g, "");
-    if (!digits) {
-      setFieldError(fields.phone, errorSpans.phone, "Please enter your phone number.");
-      return false;
+    function check(key: keyof typeof required): boolean {
+      const v = required[key].value.trim();
+      const ok = key === "email" ? EMAIL.test(v) : v.length > 0;
+      setError(key, ok ? null : messages[key]);
+      return ok;
     }
-    if (digits.length < 10) {
-      setFieldError(fields.phone, errorSpans.phone, "Please enter a valid 10-digit phone number.");
-      return false;
+
+    (Object.keys(required) as (keyof typeof required)[]).forEach((k) => {
+      required[k].addEventListener("blur", () => required[k].value && check(k));
+      required[k].addEventListener("input", () => required[k].getAttribute("aria-invalid") === "true" && check(k));
+    });
+
+    function showStatus(text: string, ok: boolean) {
+      status.textContent = text;
+      status.setAttribute("role", ok ? "status" : "alert");
+      status.className = `text-center text-sm font-display font-semibold ${ok ? "text-green-800" : "text-red-700"}`;
     }
-    setFieldValid(fields.phone, errorSpans.phone);
-    return true;
-  }
 
-  function validateMessage(): boolean {
-    const val = fields.message.value.trim();
-    if (!val) {
-      setFieldError(fields.message, errorSpans.message, "Please describe what you need.");
-      return false;
-    }
-    setFieldValid(fields.message, errorSpans.message);
-    return true;
-  }
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const results = (Object.keys(required) as (keyof typeof required)[]).map((k) => [k, check(k)] as const);
+      const firstBad = results.find(([, ok]) => !ok);
+      if (firstBad) {
+        required[firstBad[0]].focus();
+        return;
+      }
 
-  fields.name.addEventListener("blur", validateName);
-  fields.phone.addEventListener("blur", validatePhone);
-  fields.message.addEventListener("blur", validateMessage);
+      btn.disabled = true;
+      btn.textContent = d.sending ?? "";
+      form.setAttribute("aria-busy", "true");
+      status.classList.add("hidden");
 
-  // Clear field-level error on input so user gets immediate feedback while correcting
-  fields.name.addEventListener("input", () => {
-    if (fields.name.value.trim()) clearFieldState(fields.name, errorSpans.name);
-  });
-  fields.phone.addEventListener("input", () => {
-    if (fields.phone.value.replace(/\D/g, "").length >= 10) clearFieldState(fields.phone, errorSpans.phone);
-  });
-  fields.message.addEventListener("input", () => {
-    if (fields.message.value.trim()) clearFieldState(fields.message, errorSpans.message);
-  });
-
-  form?.addEventListener("submit", async (e) => {
-    // Peak-End Rule: PEAK moment — submit tap. Button feedback must be instant and unambiguous.
-    e.preventDefault();
-
-    // Validate all fields before submit
-    const nameOk = validateName();
-    const phoneOk = validatePhone();
-    const messageOk = validateMessage();
-    if (!nameOk || !phoneOk || !messageOk) return;
-
-    btn.disabled = true;
-    form.setAttribute("aria-busy", "true");
-    btn.textContent = "Sending...";
-    msg.textContent = "";
-    msg.className = "text-center text-sm hidden";
-
-    // Normalize inputs before sending
-    const name = fields.name.value.trim();
-    const phone = fields.phone.value.replace(/\D/g, "");
-    const message = fields.message.value.trim();
-
-    try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, phone, message }),
-      });
-
-      if (res.ok) {
-        form.reset();
-        // Clear all field valid states after reset
-        (["name", "phone", "message"] as const).forEach((k) =>
-          clearFieldState(fields[k], errorSpans[k])
-        );
-        msg.setAttribute("role", "status");
-        // Peak-End Rule: END of the primary conversion flow — warm, specific confirmation.
-        msg.textContent = "✓ Request sent — we'll be in touch.";
-        msg.className = "text-center text-sm text-green-700 font-semibold";
-        msg.classList.remove("hidden");
-        btn.textContent = "Sent ✓";
-        btn.setAttribute("aria-disabled", "true");
-        form.removeAttribute("aria-busy");
-        setTimeout(() => {
-          btn.disabled = false;
-          btn.removeAttribute("aria-disabled");
-          btn.textContent = "Send Another Request →";
-          msg.classList.add("hidden");
-        }, 4000);
-      } else {
-        // Map server errors to specific fields when the API tells us which field failed
-        const body = await res.json().catch(() => ({}));
-        if (body?.field && body.field in errorSpans) {
-          const fieldKey = body.field as keyof typeof fields;
-          setFieldError(fields[fieldKey], errorSpans[fieldKey], body.error ?? "Invalid value.");
-          fields[fieldKey].focus();
+      const payload = Object.fromEntries(new FormData(form).entries());
+      try {
+        const res = await fetch("/api/contact", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        if (res.ok) {
+          form.reset();
+          showStatus(d.sent ?? "", true);
+          btn.textContent = d.sendAnother ?? "";
         } else {
-          throw new Error("failed");
+          const body = await res.json().catch(() => ({}));
+          if (body?.field && body.field in required) {
+            setError(body.field, body.error ?? messages[body.field as keyof typeof required]);
+            required[body.field as keyof typeof required].focus();
+            btn.textContent = d.retry ?? "";
+          } else {
+            throw new Error("send failed");
+          }
         }
+      } catch {
+        showStatus(d.failed ?? "", false);
+        btn.textContent = d.retry ?? "";
+      } finally {
         btn.disabled = false;
-        btn.textContent = "Try Again →";
         form.removeAttribute("aria-busy");
       }
-    } catch {
-      msg.setAttribute("role", "alert");
-      msg.textContent = "Message not sent — check your connection and try again, or call us directly.";
-      msg.className = "text-center text-sm text-red-600 font-medium";
-      msg.classList.remove("hidden");
-      btn.disabled = false;
-      btn.textContent = "Try Again →";
-      form.removeAttribute("aria-busy");
-    }
-  });
+    });
+  }
 </script>

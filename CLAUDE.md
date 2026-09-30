@@ -1,93 +1,48 @@
-# CLAUDE.md — WarleyD Client Site Template
+# CLAUDE.md — Career Connect Consultants site
 
-Repo-specific guidance for Claude Code. Read this in addition to the global rules in `~/.claude/CLAUDE.md`.
+Client site for Career Connect Consultants, LLC (founder Carla Mackey, Laurel MD). Read with the global rules in `~/.claude/CLAUDE.md`.
 
-## What this repo IS
+## What this repo is
 
-A **template** for client trade sites (plumbing, HVAC, landscaping, roofing, electrical, etc.) sold via `websites.warleyd.com`. Each client gets a clone with `src/site-data.json` replaced by their own data.
+- **Astro 4 static site**, cloned from `warleyd-sites/warleyd-client-template` on 2026-09-30 (template commit `d690e5c`), then extended: blog and legal content collections, pricing and testimonials pages, a brand-kit theme, and a root `/api/contact.ts` Vercel Function.
+- **Production:** Vercel, domain `thecareerconnect.net` (registered 2026-09-30 on Cloudflare).
+- **Backup:** the Webflow site `thecareerconnect.webflow.io`. See "Webflow mirror" below.
 
-This is the **build-it-once-clone-it-per-client** pattern. The template rarely changes; the per-client clones differ only in data and images.
+## Rules carried over from the template
 
-> **The data layer moved.** It used to be `src/config/site.ts`, hand-edited per client, with copy also written directly into `.astro` files. It is now **`src/site-data.json`**, and `src/config/site.ts` is a thin typed adapter over it. **No visitor-facing copy lives in any `.astro` file.** If you are about to type a sentence a visitor will read into a `.astro` file, stop — it belongs in the data.
+- **No visitor-facing copy in `.astro` files.** Copy lives in `src/site-data.json` (including UI labels under `ui` and `form`), `src/content/blog/*.md` and `src/content/legal/*.md`.
+- **Claim nothing the client hasn't stated.** Every claim on the site traces to the client's old Webflow site or to the client directly: pricing, the NDA, the 24-hour response time, service areas, office hours. No invented stats, reviews, credentials or years in business (`yearsInBusiness: 0` = not stated).
+- **Never present a stock photo as the client's own work.** Alt text describes what is shown, never "our clients" or "our team".
+- **The build runs with no network and no model.**
+- **Previews are noindex.** Only a build with `PUBLIC_IS_PRODUCTION=true` is indexable.
 
-## Required Reading
+## Brand (from the client's brand kit, 2026-09-30)
 
-Before any non-trivial change, read in this order:
+Navy `#052649`, blue `#0E508D`, orange `#E97D22`, gold `#C49C5E`. Montserrat for the interface and headings; Libre Baskerville for body text and italic display lines. Tagline: "Connecting Talent to Opportunity". The hex codes printed in the kit image were garbled, so these values were sampled from the image pixels.
 
-1. **`VISION.md`** — template intent, what stays template-level vs. per-client.
-2. **`BUILD_INSTRUCTIONS.md`** — how an order becomes a finished site. **Follow this when cloning for a real client.**
-3. **`src/site-data.json`** — the SSOT. For a client clone this is the only data file you edit.
-4. **`../READINESS_RUBRIC.md`** — MARKETING_SITE category bar.
+Primary buttons use **navy text on orange**. White on `#E97D22` is about 2.9:1 and fails WCAG AA; don't "fix" it back to white.
 
-## Build / Test Commands
+The orange swoosh (hero, `PageHeader`) is the one recurring brand gesture. Don't add more decoration.
+
+## Webflow mirror
+
+The owner wants the Webflow site kept as a backup that tracks this one. When a change here is published:
+
+1. Deploy here first (Vercel is the source of truth).
+2. Mirror the same content change in the Webflow site through the Webflow MCP, then publish Webflow.
+3. Note in the commit or PR that Webflow was updated, or name what wasn't mirrored.
+
+Webflow can't run the contact function or the blog/legal Markdown directly. Mirror their **content**, not their mechanics.
+
+## Commands
 
 ```bash
-npm install
-npm run dev                                # dev server
-npm run build                              # preview build — noindex, no sitemap
-PUBLIC_IS_PRODUCTION=true npm run build    # live build — indexable + sitemap
-npm run preview                            # serve the built site
-npm test                                   # data + rendering + honesty checks
+npm test                                   # the gate
+npm run build && npx astro preview         # look at it
 ```
 
-`npm test` is the real gate. It fails if copy leaks into `.astro` files, if an image slot points at a missing file, if two city pages share body copy, or if an unverifiable claim appears in the template.
+Git author must be `charles.warleyd@gmail.com` for Vercel deploys (see portfolio memory).
 
-**The build must run with no network and no model.** That is what keeps delivery off metered inference. Never add a build step that fetches anything.
+## Open work
 
-## Git Workflow
-
-- **Template repo (this one):** branch from `master` as `claude/<short-description>`, open a PR.
-- **Per-client clones:** a new repo per client at `warleyd-sites/<slug>`, not a branch here.
-
-## Auto-Merge Policy
-
-**Doc-only PRs may be auto-merged.** Doc-only = `*.md`, `*.mdx`, `*.txt`, `public/robots.txt`, `LICENSE`, `.gitignore` comment-only.
-
-**Anything else requires explicit go-ahead.** Especially: `src/site-data.json` schema changes, `BUILD_INSTRUCTIONS.md` workflow changes, `astro.config.mjs`, `src/layouts/Layout.astro`.
-
-## Hard Rules
-
-- **NEVER put real client data in this repo.** The shipped `src/site-data.json` carries `"_sample": true` and demo copy. A client clone must drop `_sample`; a test fails if sample copy survives into real client data.
-- **NEVER write visitor-facing copy into a `.astro` file.** Everything comes from `site-data.json`. The `.astro` files are loops and bindings.
-- **NEVER assert a claim the intake does not support** — licensing, insurance, guarantees, free estimates, callback times, warranties, review counts. False claims create refund liability; honesty is the moat (`VISION.md`). A test enforces this.
-- **NEVER present a stock photo as the client's own work.** Images are uncaptioned; licences live on `/credits`. A test checks alt text for authorship claims.
-- **`yearsInBusiness: 0` means "not stated"** — the site hides the figure. Never default it to a guess.
-- **NEVER add per-client code branches.** All customization is data-driven. No `if (client === 'finky') { ... }`.
-- **NEVER add SSR unless unavoidable.** Trade sites are static; SSR adds cost without conversion lift.
-- Per global rule: never leave work local. Commit + push the same session.
-
-## Architecture Quick Reference
-
-- **Astro 4.x** static site, **@astrojs/tailwind**, **@astrojs/sitemap**
-- **Data layer:** `src/site-data.json` → `src/config/site.ts` (typed adapter + derived helpers: `telHref`, `areaLinks`, `areasFormatted`, `schemaType`, `isProd`)
-- **Images:** originals in `src/images/`, resolved by filename via `src/lib/images.ts`, rendered through `src/components/SiteImage.astro`. Every slot is optional — an empty or missing one renders nothing.
-- **Pages:** index, about, services, `services/[service]`, `service-areas/[city]`, contact, privacy, terms, credits, plus a generated `robots.txt`
-- **Components:** Hero, Services, Footer, Nav, ContactForm, SiteImage
-- **SEO:** canonical, Open Graph, Twitter card, JSON-LD (LocalBusiness + Service + FAQPage), sitemap and `robots.txt` — all derived from `seo.siteUrl`
-- **Indexing gate:** every build is `noindex` and `Disallow: /` unless `PUBLIC_IS_PRODUCTION=true`
-- **Contact form:** `src/pages/api/contact.ts`, Resend, needs `RESEND_API_KEY`
-
-## Workflow for a new client clone
-
-1. Create `warleyd-sites/<slug>` from this template
-2. Read `BUILD_INSTRUCTIONS.md` end to end
-3. Replace `src/site-data.json` with the client's data (drop `_sample`)
-4. Source images (`node scripts/source-images.mjs`) and **review every one by eye** — licence filters are mechanical, relevance is not
-5. `npm test && npm run build`, then click through `npm run preview`
-6. Strip template-only docs, write a client-facing `README.md`
-7. Deploy, set the custom domain, point `seo.siteUrl` at it, rebuild with `PUBLIC_IS_PRODUCTION=true`
-
-The template itself should rarely change — only when a pattern benefits all clients.
-
-## User testing (read by /user-test)
-
-Protocol: `.claude/skills/user-test/SKILL.md` (synced from `portfolio-root/_portfolio/skills/user-test` — do not edit the copy). Findings: `docs/USER_TESTING.md`.
-
-- type: TEMPLATE
-- live: https://websites.warleyd.com
-- dev: http://localhost:4321 (npm run dev)
-- test account: (none yet — writes on live are blocked; add E2E_TEST_EMAIL / E2E_TEST_PASSWORD to .env.example to unblock)
-- flows:
-  - landing → contact form (Resend)
-  - every page at 375px
-- persona notes: client-site starter; findings here fix the template so every future client site inherits them
+`docs/OPEN_GAPS.md`.

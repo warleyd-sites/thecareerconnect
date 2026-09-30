@@ -2,84 +2,77 @@
 import Layout from "@/layouts/Layout.astro";
 import Nav from "@/components/Nav.astro";
 import Footer from "@/components/Footer.astro";
-import { site, telHref, hasYears } from "@/config/site";
+import PageHeader from "@/components/PageHeader.astro";
 import SiteImage from "@/components/SiteImage.astro";
-import { presentImages } from "@/lib/images";
+import CtaBand from "@/components/CtaBand.astro";
+import { site } from "@/config/site";
 
-const sections = site.pages.about.sections;
-const images = presentImages(site.pages.about.images);
+const page = site.pages.about;
 ---
 
-<Layout
-  title={`About ${site.about.ownerName}`}
-  description={`${site.about.story.slice(0, 155)}…`}
->
+<Layout title={page.heading} description={page.lede}>
   <Nav />
+  <main id="main">
+    <PageHeader title={page.heading} lede={page.lede} />
 
-  <section class="py-12 px-4" style="background-color: var(--color-navy)">
-    <div class="max-w-6xl mx-auto">
-      <h1 class="font-display text-4xl font-bold text-white mb-2">About Us</h1>
-      <p class="text-gray-300">{site.business.name} — {site.business.primaryCity}</p>
-    </div>
-  </section>
-
-  <section class="py-16 px-4">
-    <div class="max-w-3xl mx-auto">
-      <h2 class="font-display text-3xl font-bold mb-6" style="color: var(--color-navy)">
-        Meet {site.about.ownerName}
-      </h2>
-      <p class="text-gray-700 text-lg leading-relaxed mb-10">{site.about.story}</p>
-
-      <div class="grid grid-cols-2 sm:grid-cols-3 gap-6 my-10 bg-gray-50 rounded-2xl p-8">
-        {hasYears && (
-          <div class="text-center">
-            <div class="font-display text-3xl font-bold" style="color: var(--color-brand)">{site.about.yearsInBusiness}+</div>
-            <div class="text-xs text-gray-600 mt-1">Years Experience</div>
+    <section class="py-16 px-4 sm:px-6">
+      <div class="max-w-5xl mx-auto grid md:grid-cols-[18rem_1fr] gap-12 items-start">
+        <figure>
+          <div class="aspect-square overflow-hidden rounded-full ring-8 ring-mist">
+            <SiteImage image={site.about.ownerImage} class="h-full w-full object-cover" sizes="288px" widths={[300, 600]} loading="eager" />
           </div>
-        )}
-        <div class="text-center">
-          <div class="font-display text-3xl font-bold" style="color: var(--color-brand)">{site.locations.length}</div>
-          <div class="text-xs text-gray-600 mt-1">Areas Served</div>
-        </div>
-        <div class="text-center">
-          <div class="font-display text-3xl font-bold" style="color: var(--color-brand)">{site.services.length}</div>
-          <div class="text-xs text-gray-600 mt-1">Services Offered</div>
+          <figcaption class="mt-5 text-center font-display">
+            <span class="block font-bold text-navy">{site.about.ownerName}</span>
+            <span class="block text-sm text-gray-700">{site.about.ownerTitle}</span>
+          </figcaption>
+        </figure>
+        <div>
+          <h2 class="text-3xl font-extrabold text-navy">{page.storyHeading}</h2>
+          <p class="mt-5 text-lg leading-relaxed text-gray-800">{site.about.story}</p>
+          <blockquote class="mt-8 border-l-4 border-accent pl-6 font-body italic text-2xl leading-snug text-navy">“{site.about.ownerQuote}”</blockquote>
         </div>
       </div>
+    </section>
 
-      {images.length > 0 && (
-        <div class="grid sm:grid-cols-2 gap-4 my-10">
-          {images.map((img) => (
-            <SiteImage
-              image={img}
-              class="h-56 w-full object-cover rounded-xl"
-              sizes="(min-width: 640px) 50vw, 100vw"
-            />
+    <section class="bg-navy text-white py-16 px-4 sm:px-6">
+      <div class="max-w-6xl mx-auto grid lg:grid-cols-[1fr_1.5fr] gap-12">
+        <div>
+          <h2 class="text-3xl font-extrabold">{page.teamHeading}</h2>
+          <p class="mt-4 text-lg text-white/85">{page.teamIntro}</p>
+        </div>
+        <div class="grid sm:grid-cols-2 gap-8">
+          {page.team.map((t) => (
+            <div class="border-t-2 border-gold pt-5">
+              <h3 class="text-xl font-bold">{t.title}</h3>
+              <p class="mt-2 text-white/85">{t.body}</p>
+            </div>
           ))}
         </div>
-      )}
-
-      <!-- The about narrative — one block per `pages.about.sections` entry -->
-      <div class="space-y-6">
-        {sections.map((section) => (
-          <p class="text-gray-700 leading-relaxed">{section}</p>
-        ))}
       </div>
+    </section>
 
-      <div class="mt-10 flex flex-wrap gap-4">
-        <a
-          href={telHref}
-          class="px-6 py-3 rounded-lg text-white font-bold transition-opacity hover:opacity-90"
-          style="background-color: var(--color-brand)"
-        >
-          Call {site.business.phone}
-        </a>
-        <a href="/contact" class="px-6 py-3 rounded-lg font-bold border-2 border-gray-200 text-gray-700 hover:border-gray-400 transition-colors">
-          Request a Quote
-        </a>
+    <section class="py-16 px-4 sm:px-6">
+      <div class="max-w-6xl mx-auto">
+        <h2 class="text-3xl font-extrabold text-navy">{page.philosophyHeading}</h2>
+        <div class="mt-10 grid md:grid-cols-3 gap-8">
+          {page.philosophy.map((p) => (
+            <div class="border-t-2 border-gold pt-5">
+              <h3 class="text-xl font-bold text-navy">{p.title}</h3>
+              <p class="mt-2 text-gray-800">{p.body}</p>
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
+    <section class="pb-16 px-4 sm:px-6">
+      <div class="max-w-3xl mx-auto text-center">
+        <h2 class="text-3xl font-extrabold text-navy">{page.communityHeading}</h2>
+        <p class="mt-4 text-lg text-gray-800">{page.community}</p>
+      </div>
+    </section>
+
+    <CtaBand />
+  </main>
   <Footer />
 </Layout>

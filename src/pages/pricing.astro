@@ -1,0 +1,60 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Nav from "@/components/Nav.astro";
+import Footer from "@/components/Footer.astro";
+import PageHeader from "@/components/PageHeader.astro";
+import Icon from "@/components/Icon.astro";
+import Faq from "@/components/Faq.astro";
+import { site } from "@/config/site";
+
+const p = site.pricing;
+const faq = site.pages.services.faq;
+---
+
+<Layout title={p.heading} description={`${p.lede} ${p.intro}`} faq={faq}>
+  <Nav />
+  <main id="main">
+    <PageHeader title={p.heading} lede={p.lede} />
+
+    <section class="py-16 px-4 sm:px-6">
+      <div class="max-w-4xl mx-auto">
+        <p class="text-lg text-gray-800">{p.intro}</p>
+        <ul class="mt-10 border-t-2 border-navy">
+          {p.items.map((item) => (
+            <li class="grid sm:grid-cols-[1fr_auto] gap-x-10 gap-y-2 border-b border-gray-200 py-7">
+              <div>
+                <h2 class="text-xl font-bold text-navy">{item.name}</h2>
+                <p class="mt-1 text-gray-800">{item.body}</p>
+              </div>
+              <p class="font-display sm:text-right">
+                <span class="block text-4xl font-extrabold text-brand">{item.price}</span>
+                <span class="block text-sm font-semibold text-gray-700">{item.unit}</span>
+              </p>
+            </li>
+          ))}
+        </ul>
+        <p class="mt-6 font-display text-sm font-semibold text-navy">{p.note}</p>
+
+        <div class="mt-14 grid md:grid-cols-2 gap-8">
+          {[
+            { heading: p.paymentsHeading, items: p.payments },
+            { heading: p.confidentialityHeading, items: p.confidentiality },
+          ].map((block) => (
+            <div class="rounded-2xl bg-mist p-7">
+              <h2 class="text-xl font-bold text-navy">{block.heading}</h2>
+              <ul class="mt-4 space-y-3">
+                {block.items.map((t) => (
+                  <li class="flex gap-3"><Icon name="check" class="w-5 h-5 mt-1 shrink-0 text-accent" /><span>{t}</span></li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+        <a href="/contact" class="btn-primary mt-10">{p.cta}</a>
+      </div>
+    </section>
+
+    <Faq items={faq} />
+  </main>
+  <Footer />
+</Layout>

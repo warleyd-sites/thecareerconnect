@@ -1,0 +1,24 @@
+---
+/**
+ * Navy page header shared by every inner page. The orange swoosh is the one
+ * recurring brand gesture — lifted from the logo's sweep — so it lives here
+ * and in the home hero, nowhere else.
+ */
+interface Props {
+  title: string;
+  lede?: string;
+}
+const { title, lede } = Astro.props;
+---
+
+<section class="relative overflow-hidden bg-navy text-white px-4 sm:px-6">
+  <div class="relative z-10 max-w-6xl mx-auto pt-16 pb-24 sm:pt-20 sm:pb-28">
+    <h1 class="text-4xl sm:text-5xl font-extrabold max-w-3xl">{title}</h1>
+    {lede && <p class="mt-5 max-w-2xl text-lg sm:text-xl italic text-white/85">{lede}</p>}
+    <slot />
+  </div>
+  <svg aria-hidden="true" class="absolute bottom-0 left-0 w-full h-16 sm:h-24" viewBox="0 0 1440 120" preserveAspectRatio="none">
+    <path d="M0 120 C 360 20, 900 10, 1440 70 L1440 120 Z" fill="white" />
+    <path d="M0 110 C 380 10, 920 0, 1440 58 L1440 66 C 920 12, 380 26, 0 120 Z" fill="var(--color-accent)" />
+  </svg>
+</section>

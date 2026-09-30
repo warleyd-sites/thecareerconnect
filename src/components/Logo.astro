@@ -1,0 +1,43 @@
+---
+/**
+ * Text lockup of the Career Connect logo, modelled on the brand kit:
+ * CAREER in blue, CONNECT in orange, the legal suffix between gold rules.
+ * Stands in until the client's vector logo files arrive — swap the markup
+ * for an <img> of the SVG at that point; every page uses this component.
+ */
+import { site } from "@/config/site";
+
+interface Props {
+  /** "dark" sits on the navy footer/hero. */
+  tone?: "light" | "dark";
+  class?: string;
+}
+const { tone = "light", class: className = "" } = Astro.props;
+
+const [first, ...rest] = site.business.shortName.split(" ");
+const second = rest.join(" ");
+const suffix = site.business.name.replace(site.business.shortName, "").trim();
+const firstColor = tone === "dark" ? "#ffffff" : "var(--color-brand)";
+const suffixColor = tone === "dark" ? "rgb(255 255 255 / 0.85)" : "var(--color-ink)";
+---
+
+<span class={`inline-flex items-center gap-2.5 ${className}`}>
+  <svg aria-hidden="true" viewBox="0 0 48 40" class="h-9 w-auto shrink-0">
+    <circle cx="14" cy="9" r="4.2" fill={tone === "dark" ? "#fff" : "var(--color-brand)"} />
+    <circle cx="25" cy="6" r="4.6" fill="var(--color-accent)" />
+    <circle cx="36" cy="9" r="4.2" fill={tone === "dark" ? "#fff" : "var(--color-brand)"} />
+    <path d="M3 30 C 14 14, 30 12, 45 20 C 32 17, 18 21, 8 34 Z" fill="var(--color-accent)" />
+    <path d="M6 35 C 18 25, 32 24, 46 27 C 33 29, 20 31, 10 38 Z" fill={tone === "dark" ? "#fff" : "var(--color-brand)"} />
+  </svg>
+  <span class="flex flex-col leading-none font-display">
+    <span class="text-[1.05rem] sm:text-[1.2rem] font-extrabold tracking-tight">
+      <span style={`color:${firstColor}`}>{first.toUpperCase()}</span>
+      <span style="color: var(--color-accent)">{second.toUpperCase()}</span>
+    </span>
+    {suffix && (
+      <span class="gold-rule mt-1 text-[0.58rem] font-semibold tracking-[0.18em]">
+        <span style={`color:${suffixColor}`}>{suffix.toUpperCase()}</span>
+      </span>
+    )}
+  </span>
+</span>

@@ -1,0 +1,46 @@
+---
+/**
+ * A testimonial that loads YouTube only when played. Until then it is a
+ * local thumbnail and a button — no third-party requests or cookies on page
+ * load. Playback uses youtube-nocookie.com.
+ */
+import { site, fill } from "@/config/site";
+import SiteImage from "@/components/SiteImage.astro";
+import Icon from "@/components/Icon.astro";
+
+interface Props {
+  item: (typeof site.testimonials.items)[number];
+}
+const { item } = Astro.props;
+const label = fill(site.ui.watchTestimonial, { name: item.name.split(" ")[0] });
+---
+
+<figure>
+  <div class="yt relative aspect-video overflow-hidden rounded-xl bg-navy" data-id={item.youtubeId} data-title={item.name}>
+    <SiteImage image={item.image} class="absolute inset-0 h-full w-full object-cover" sizes="(min-width: 1024px) 33vw, 100vw" widths={[480, 800]} />
+    <button type="button" class="yt-play absolute inset-0 flex items-center justify-center bg-navy/25 hover:bg-navy/10 transition-colors" aria-label={label}>
+      <span class="flex h-16 w-16 items-center justify-center rounded-full bg-accent text-navy shadow-lg">
+        <Icon name="play" class="w-7 h-7 ml-1" />
+      </span>
+    </button>
+  </div>
+  <figcaption class="mt-4 font-display">
+    <span class="block font-bold text-navy">{item.name}</span>
+    <span class="block text-sm text-gray-700">{item.detail}</span>
+  </figcaption>
+</figure>
+
+<script>
+  document.querySelectorAll<HTMLElement>(".yt").forEach((box) => {
+    box.querySelector(".yt-play")?.addEventListener("click", () => {
+      const iframe = document.createElement("iframe");
+      iframe.src = `https://www.youtube-nocookie.com/embed/${box.dataset.id}?autoplay=1&rel=0`;
+      iframe.title = box.dataset.title ?? "";
+      iframe.allow = "autoplay; encrypted-media; picture-in-picture; fullscreen";
+      iframe.allowFullscreen = true;
+      iframe.className = "absolute inset-0 h-full w-full";
+      box.replaceChildren(iframe);
+      iframe.focus();
+    });
+  });
+</script>

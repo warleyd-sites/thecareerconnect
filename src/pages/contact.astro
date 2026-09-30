@@ -1,114 +1,51 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import Nav from "@/components/Nav.astro";
-import ContactForm from "@/components/ContactForm.astro";
 import Footer from "@/components/Footer.astro";
-import { site, telHref, mailtoHref, hoursDisplay, reviews } from "@/config/site";
+import PageHeader from "@/components/PageHeader.astro";
+import ContactForm from "@/components/ContactForm.astro";
+import Icon from "@/components/Icon.astro";
+import { site, telHref, mailtoHref, hoursDisplay, formatList } from "@/config/site";
 
-const contact = site.pages.contact;
+const page = site.pages.contact;
+const ui = site.ui;
 ---
 
-<Layout
-  title="Contact"
-  description={`Contact ${site.business.name}. Call ${site.business.phone} or send a request through the site. Serving ${site.business.serviceAreas.join(", ")}.`}
->
+<Layout title={page.heading} description={`${page.lede} Call ${site.business.phone} or send us a message.`}>
   <Nav />
-
-  <section class="py-12 px-4" style="background-color: var(--color-navy)">
-    <div class="max-w-6xl mx-auto">
-      <h1 class="font-display text-4xl font-bold text-white mb-2">Contact Us</h1>
-      <p class="text-gray-300 max-w-3xl">{contact.responseLine}</p>
-    </div>
-  </section>
-
-  <section class="py-16 px-4">
-    <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-start">
-      <div>
-        <h2 class="font-display text-2xl font-bold mb-6" style="color: var(--color-navy)">Get in Touch</h2>
-
-        <div class="space-y-5">
-          <div class="flex items-start gap-4">
-            <div class="text-2xl" aria-hidden="true">📞</div>
-            <div>
-              <div class="font-semibold text-gray-800 text-sm mb-0.5">Phone</div>
-              <a href={telHref} class="text-lg font-bold" style="color: var(--color-brand)">
-                {site.business.phone}
-              </a>
+  <main id="main">
+    <PageHeader title={page.heading} lede={page.lede} />
+    <section class="py-16 px-4 sm:px-6">
+      <div class="max-w-6xl mx-auto grid lg:grid-cols-[1fr_1.3fr] gap-12 items-start">
+        <div>
+          <p class="text-lg text-gray-800">{page.responseLine}</p>
+          <dl class="mt-8 space-y-6 font-display">
+            <div class="flex gap-4">
+              <Icon name="phone" class="w-6 h-6 shrink-0 text-accent" />
+              <div><dt class="text-sm font-bold text-brand">{ui.phoneHeading}</dt><dd><a href={telHref} class="text-xl font-extrabold text-navy hover:underline">{site.business.phone}</a></dd></div>
             </div>
-          </div>
-
-          <div class="flex items-start gap-4">
-            <div class="text-2xl" aria-hidden="true">✉️</div>
-            <div>
-              <div class="font-semibold text-gray-800 text-sm mb-0.5">Email</div>
-              <a href={mailtoHref} class="text-gray-700 hover:text-gray-900 transition-colors">
-                {site.business.email}
-              </a>
+            <div class="flex gap-4">
+              <Icon name="mail" class="w-6 h-6 shrink-0 text-accent" />
+              <div><dt class="text-sm font-bold text-brand">{ui.emailHeading}</dt><dd><a href={mailtoHref} class="font-semibold text-navy hover:underline break-all">{site.business.email}</a></dd></div>
             </div>
-          </div>
-
-          {hoursDisplay.length > 0 && (
-            <div class="flex items-start gap-4">
-              <div class="text-2xl" aria-hidden="true">🕗</div>
-              <div>
-                <div class="font-semibold text-gray-800 text-sm mb-1">Hours</div>
-                <dl class="text-sm text-gray-600 space-y-0.5">
-                  {hoursDisplay.map((h) => (
-                    <div class="flex gap-3">
-                      <dt class="w-20 font-medium text-gray-700">{h.days}</dt>
-                      <dd>{h.time}</dd>
-                    </div>
-                  ))}
-                </dl>
-              </div>
+            <div class="flex gap-4">
+              <Icon name="clock" class="w-6 h-6 shrink-0 text-accent" />
+              <div><dt class="text-sm font-bold text-brand">{ui.hoursHeading}</dt><dd class="text-navy">{hoursDisplay.map((h) => <span class="block">{h.days}: {h.time}</span>)}</dd></div>
             </div>
-          )}
-
-          <div class="flex items-start gap-4">
-            <div class="text-2xl" aria-hidden="true">📍</div>
-            <div>
-              <div class="font-semibold text-gray-800 text-sm mb-0.5">Service Areas</div>
-              <div class="text-gray-600">{site.business.serviceAreas.join(" · ")}</div>
+            <div class="flex gap-4">
+              <Icon name="pin" class="w-6 h-6 shrink-0 text-accent" />
+              <div><dt class="text-sm font-bold text-brand">{ui.addressHeading}</dt><dd class="text-navy">{site.business.streetAddress}<br />{site.business.address} {site.business.postalCode}</dd></div>
             </div>
+          </dl>
+          <p class="mt-8 text-gray-800">{ui.footer.servingPrefix} {formatList(site.business.serviceAreas)}.</p>
+          <div class="mt-10 border-t-2 border-gold pt-6">
+            <h2 class="text-xl font-bold text-navy">{page.partnerHeading}</h2>
+            <p class="mt-2 text-gray-800">{page.partnerBody}</p>
           </div>
         </div>
-
-        {reviews && (
-          <a
-            href={reviews.url}
-            target="_blank"
-            rel="noopener"
-            class="mt-8 inline-flex items-center gap-2 rounded-lg border border-gray-200 px-4 py-3 text-sm hover:border-gray-400 transition-colors"
-          >
-            <span aria-hidden="true" style="color: var(--color-brand)">★★★★★</span>
-            <span class="font-semibold text-gray-800">{reviews.rating.toFixed(1)}</span>
-            <span class="text-gray-600">from {reviews.count} {reviews.source} review{reviews.count === 1 ? "" : "s"}</span>
-          </a>
-        )}
-
-        {contact.expectBullets.length > 0 && (
-          <div class="mt-10 bg-gray-50 rounded-2xl p-7">
-            <h3 class="font-display text-lg font-bold mb-4" style="color: var(--color-navy)">
-              What to expect
-            </h3>
-            <ol class="space-y-4">
-              {contact.expectBullets.map((bullet, i) => (
-                <li class="flex gap-4">
-                  <span
-                    class="flex-shrink-0 w-7 h-7 rounded-full text-white font-bold flex items-center justify-center text-xs"
-                    style="background-color: var(--color-brand)"
-                  >{i + 1}</span>
-                  <span class="text-gray-700 text-sm leading-relaxed pt-0.5">{bullet}</span>
-                </li>
-              ))}
-            </ol>
-          </div>
-        )}
+        <div class="order-first lg:order-none"><ContactForm /></div>
       </div>
-
-      <ContactForm />
-    </div>
-  </section>
-
+    </section>
+  </main>
   <Footer />
 </Layout>

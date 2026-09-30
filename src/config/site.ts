@@ -26,17 +26,13 @@ export const telHref = `tel:${site.business.phone.replace(/\D/g, "")}`;
 
 export const mailtoHref = `mailto:${site.business.email}`;
 
-/**
- * Area links are derived from `locations[]`, never from the
- * `business.serviceAreas` strings — locations carry the explicit slug
- * that [city].astro builds its routes from, so links can never point
- * at a route that was not generated.
- */
-export const areaLinks = site.locations.map((l) => ({
-  name: l.city,
-  slug: l.slug,
-  href: `/service-areas/${l.slug}`,
-}));
+/** Replaces {name} placeholders in a UI string from site-data.json. */
+export function fill(template: string, vars: Record<string, string>): string {
+  return template.replace(/\{(\w+)\}/g, (m, k) => vars[k] ?? m);
+}
+
+/** One-line postal address for display and schema. */
+export const fullAddress = `${site.business.streetAddress}, ${site.business.address} ${site.business.postalCode}`;
 
 /** "A, B & C" — for prose. Falls back gracefully for 0/1/2 entries. */
 export function formatList(items: readonly string[]): string {
@@ -65,6 +61,7 @@ export const geoRegion = `US-${site.business.address.split(",").pop()?.trim() ??
  * being forced into a type that does not exist.
  */
 const SCHEMA_TYPES: Record<string, string> = {
+  "Career Development Consulting": "ProfessionalService",
   Plumbing: "Plumber",
   HVAC: "HVACBusiness",
   Electrical: "Electrician",

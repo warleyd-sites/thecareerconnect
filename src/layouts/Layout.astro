@@ -1,6 +1,7 @@
 ---
 import { getImage } from "astro:assets";
 import { site, isProd, schemaType, geoRegion, openingHoursSpec, ATTRIBUTION, type Faq } from "@/config/site";
+import "@/styles/global.css";
 import { resolveImage } from "@/lib/images";
 
 interface Props {
@@ -38,11 +39,14 @@ const localBusiness = {
   email: site.business.email,
   address: {
     "@type": "PostalAddress",
+    streetAddress: site.business.streetAddress,
     addressLocality: site.business.primaryCity,
+    postalCode: site.business.postalCode,
     addressRegion: geoRegion.replace(/^US-/, ""),
     addressCountry: "US",
   },
-  areaServed: site.business.serviceAreas.map((a) => ({ "@type": "AdministrativeArea", name: a })),
+  areaServed: site.business.serviceAreas.map((a) => ({ "@type": "State", name: a })),
+  founder: { "@type": "Person", name: site.about.ownerName },
   // Real hours from the client's own listing. No aggregateRating here: the
   // reviews live on Google, and marking up someone else's reviews as our own
   // breaches Google's structured-data policy.
@@ -55,7 +59,7 @@ const serviceNodes = site.services.map((s) => ({
   description: s.description,
   serviceType: s.name,
   provider: { "@type": schemaType, name: site.business.name },
-  areaServed: site.business.serviceAreas.map((a) => ({ "@type": "AdministrativeArea", name: a })),
+  areaServed: site.business.serviceAreas.map((a) => ({ "@type": "State", name: a })),
 }));
 
 const faqNodes =
@@ -126,54 +130,41 @@ const jsonLd = {
     <link
       rel="preload"
       as="style"
-      href="https://fonts.googleapis.com/css2?family=Oswald:wght@600;700&family=Inter:wght@400;500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@500;600;700;800&display=swap"
     />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Oswald:wght@600;700&family=Inter:wght@400;500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@500;600;700;800&display=swap"
       media="print"
       onload="this.media='all'"
     />
     <noscript>
       <link
         rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Oswald:wght@600;700&family=Inter:wght@400;500;600&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@500;600;700;800&display=swap"
       />
     </noscript>
 
-    <!-- Brand colors as CSS variables -->
-    <style define:vars={{ brandColor: site.colors.primary, navyColor: site.colors.navy, accentColor: site.colors.accent || site.colors.primary }}>
+    <!-- Brand colors as CSS variables — values come from site-data.json -->
+    <style define:vars={{ brandColor: site.colors.primary, navyColor: site.colors.navy, accentColor: site.colors.accent, goldColor: site.colors.gold, inkColor: site.colors.ink, mistColor: site.colors.mist }}>
       :root {
         --color-brand: var(--brandColor);
         --color-navy: var(--navyColor);
         --color-accent: var(--accentColor);
+        --color-gold: var(--goldColor);
+        --color-ink: var(--inkColor);
+        --color-mist: var(--mistColor);
         --color-brand-dark: color-mix(in srgb, var(--brandColor) 80%, black);
         --color-navy-dark: color-mix(in srgb, var(--navyColor) 70%, black);
-      }
-      body {
-        font-family: "Inter", sans-serif;
-      }
-      /* §6 WCAG 2.2 AA — visible focus ring for keyboard users */
-      :focus-visible {
-        outline: 3px solid var(--color-brand);
-        outline-offset: 2px;
-        border-radius: 3px;
-      }
-      /* §6 WCAG 2.2 AA — reduced motion */
-      @media (prefers-reduced-motion: reduce) {
-        *, *::before, *::after {
-          animation-duration: 0.01ms !important;
-          animation-iteration-count: 1 !important;
-          transition-duration: 0.01ms !important;
-          scroll-behavior: auto !important;
-        }
+        --color-accent-dark: color-mix(in srgb, var(--accentColor) 88%, black);
       }
     </style>
   </head>
-  <body class="bg-white text-gray-900 antialiased">
+  <body class="bg-white text-ink antialiased">
+    <a href="#main" class="skip-link">{site.ui.skipLink}</a>
     <slot />
-    <p class="text-center py-3 text-xs text-gray-400">
-      <a href={ATTRIBUTION.url} class="hover:text-gray-600 transition-colors">
+    <p class="text-center py-3 text-xs text-gray-600 bg-white font-display">
+      <a href={ATTRIBUTION.url} class="hover:text-ink transition-colors">
         {ATTRIBUTION.text}
       </a>
     </p>

@@ -1,69 +1,60 @@
 ---
-import { site, telHref, mailtoHref, areaLinks } from "@/config/site";
+import { site, telHref, mailtoHref, hoursDisplay, formatList } from "@/config/site";
+import Logo from "@/components/Logo.astro";
+import Icon from "@/components/Icon.astro";
+
+const ui = site.ui;
+const company = [
+  { href: "/about", label: ui.nav.about },
+  { href: "/pricing", label: ui.nav.pricing },
+  { href: "/testimonials", label: ui.nav.testimonials },
+  { href: "/blog", label: ui.nav.blog },
+  { href: "/contact", label: ui.nav.contact },
+];
 ---
 
-<footer class="py-12 px-4" style="background-color: var(--color-navy)">
-  <div class="max-w-6xl mx-auto">
-    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+<footer class="bg-navy text-white/85 font-display px-4 sm:px-6">
+  <div class="max-w-6xl mx-auto pt-16 pb-10">
+    <div class="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr_1.3fr]">
       <div>
-        <h3 class="font-display text-lg font-bold text-white mb-3">{site.business.name}</h3>
-        <p class="text-gray-400 text-sm leading-relaxed">{site.business.pitch}</p>
+        <Logo tone="dark" />
+        <p class="mt-5 font-body italic text-lg text-white">{site.business.tagline}</p>
+        <p class="mt-3 text-sm leading-relaxed text-white/75">
+          {ui.footer.servingPrefix} {formatList(site.business.serviceAreas)}.
+        </p>
       </div>
 
-      <nav aria-label="Site links">
-        <h4 class="text-sm font-semibold text-gray-300 uppercase tracking-wider mb-3">Site</h4>
-        <ul class="space-y-1">
-          <li><a href="/" class="text-gray-400 text-sm hover:text-white transition-colors block py-1">Home</a></li>
-          <li><a href="/services" class="text-gray-400 text-sm hover:text-white transition-colors block py-1">Services</a></li>
-          <li><a href="/about" class="text-gray-400 text-sm hover:text-white transition-colors block py-1">About</a></li>
-          <li><a href="/contact" class="text-gray-400 text-sm hover:text-white transition-colors block py-1">Contact</a></li>
+      <nav aria-label={ui.footer.siteHeading}>
+        <h2 class="text-sm font-bold text-gold mb-3">{ui.footer.siteHeading}</h2>
+        <ul class="space-y-1 text-sm">
+          {company.map((l) => <li><a href={l.href} class="block py-1 hover:text-white">{l.label}</a></li>)}
         </ul>
       </nav>
 
-      <nav aria-label="Service area links">
-        <h4 class="text-sm font-semibold text-gray-300 uppercase tracking-wider mb-3">Service Areas</h4>
-        <ul class="space-y-1">
-          {
-            areaLinks.map((area) => (
-              <li>
-                <a
-                  href={area.href}
-                  class="text-gray-400 text-sm hover:text-white transition-colors block py-1"
-                >
-                  {area.name}
-                </a>
-              </li>
-            ))
-          }
+      <nav aria-label={ui.footer.servicesHeading}>
+        <h2 class="text-sm font-bold text-gold mb-3">{ui.footer.servicesHeading}</h2>
+        <ul class="space-y-1 text-sm">
+          {site.services.map((s) => <li><a href={`/services/${s.slug}`} class="block py-1 hover:text-white">{s.name}</a></li>)}
         </ul>
       </nav>
 
       <div>
-        <h4 class="text-sm font-semibold text-gray-300 uppercase tracking-wider mb-3">Contact</h4>
-        <div class="space-y-2">
-          <a
-            href={telHref}
-            class="block text-sm font-bold text-white hover:opacity-80 transition-opacity"
-          >
-            {site.business.phone}
-          </a>
-          <a href={mailtoHref} class="block text-sm text-gray-400 hover:text-white transition-colors">
-            {site.business.email}
-          </a>
-          <p class="text-sm text-gray-400">{site.business.address}</p>
-        </div>
-
+        <h2 class="text-sm font-bold text-gold mb-3">{ui.footer.contactHeading}</h2>
+        <ul class="space-y-3 text-sm">
+          <li class="flex gap-3"><Icon name="phone" class="w-5 h-5 shrink-0 text-accent" /><a href={telHref} class="font-bold text-white hover:underline">{site.business.phone}</a></li>
+          <li class="flex gap-3"><Icon name="mail" class="w-5 h-5 shrink-0 text-accent" /><a href={mailtoHref} class="hover:text-white break-all">{site.business.email}</a></li>
+          <li class="flex gap-3"><Icon name="pin" class="w-5 h-5 shrink-0 text-accent" /><span>{site.business.streetAddress}<br />{site.business.address} {site.business.postalCode}</span></li>
+          <li class="flex gap-3"><Icon name="clock" class="w-5 h-5 shrink-0 text-accent" /><span>{hoursDisplay.map((h) => <span class="block">{h.days}: {h.time}</span>)}</span></li>
+        </ul>
       </div>
     </div>
 
-    <div class="border-t border-white/10 pt-6 flex flex-col sm:flex-row items-center justify-center gap-3 text-xs text-gray-500">
-      <span>© {new Date().getFullYear()} {site.business.name}. All rights reserved.</span>
-      <span class="hidden sm:inline" aria-hidden="true">·</span>
-      <a href="/privacy" class="hover:text-gray-300 transition-colors">Privacy Policy</a>
-      <span class="hidden sm:inline" aria-hidden="true">·</span>
-      <a href="/terms" class="hover:text-gray-300 transition-colors">Terms of Service</a>
-      <span class="hidden sm:inline" aria-hidden="true">·</span>
-      <a href="/credits" class="hover:text-gray-300 transition-colors">Photo credits</a>
+    <div class="mt-12 pt-6 border-t border-white/15 flex flex-col sm:flex-row gap-3 sm:gap-6 justify-between text-xs text-white/70">
+      <span>© {new Date().getFullYear()} {site.business.name}. {ui.footer.rights}</span>
+      <span class="flex flex-wrap gap-x-5 gap-y-2">
+        <a href="/privacy" class="hover:text-white">{ui.footer.privacy}</a>
+        <a href="/terms" class="hover:text-white">{ui.footer.terms}</a>
+      </span>
     </div>
   </div>
 </footer>
