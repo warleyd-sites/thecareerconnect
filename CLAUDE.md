@@ -5,7 +5,10 @@ Client site for Career Connect Consultants, LLC (founder Carla Mackey, Laurel MD
 ## What this repo is
 
 - **Astro 4 static site**, cloned from `warleyd-sites/warleyd-client-template` on 2026-09-30 (template commit `d690e5c`), then extended: blog and legal content collections, pricing and testimonials pages, a brand-kit theme, and a root `/api/contact.ts` Vercel Function.
-- **Production:** Vercel, domain `thecareerconnect.net` (registered 2026-09-30 on Cloudflare).
+- **Production:** Vercel project `thecareerconnect` on the client's own account (`info@thecareerconnect.net`, team `the-career-connect`, `team_XaYzqcKmLBF0t4EFBbKaGGrm`), live at https://thecareerconnect.vercel.app. Not on the portfolio's `cmarinek-1` team.
+- **Deploying:** CLI with the token at `~/.config/vercel-tokens/thecareerconnect`, from a `git archive master` copy (no git integration is connected):
+  `vercel deploy --prod --yes --scope the-career-connect --token "$(cat ~/.config/vercel-tokens/thecareerconnect)"`
+- **Domain:** `thecareerconnect.net`, a Cloudflare zone on account OnlyWorkLife; `CLOUDFLARE_API_TOKEN` in the environment reaches it.
 - **Backup:** the Webflow site `thecareerconnect.webflow.io`. See "Webflow mirror" below.
 
 ## Rules carried over from the template
@@ -41,7 +44,7 @@ npm test                                   # the gate
 npm run build && npx astro preview         # look at it
 ```
 
-Git author must be `charles.warleyd@gmail.com` for Vercel deploys (see portfolio memory).
+Git author `charles.warleyd@gmail.com`. CLI deploys from an archive copy carry no git metadata, so the cmarinek-1 author check does not apply here.
 
 ## Open work
 
