@@ -94,6 +94,15 @@ p {
   opacity: 0.8;
 }
 
+/* Arch frame: a semicircular top over softly rounded bottom corners.
+   Percent radii, because "9999px top + 28px bottom" overflows the box and the
+   browser then scales every radius down, squaring the bottom corners.
+   --arch-y = (width / 2) / height, so set it from the box's aspect ratio:
+   3:4 -> 37.5%, 4:5 -> 40%. */
+.arch {
+  border-radius: 50% 50% 28px 28px / var(--arch-y, 40%) var(--arch-y, 40%) 28px 28px;
+}
+
 /* Long-form reading: blog posts */
 .prose-cc {
   max-width: 68ch;
@@ -131,11 +140,70 @@ p {
   text-underline-offset: 3px;
 }
 
+/* ---- Motion -------------------------------------------------------------
+   One easing for everything: the soft-settle curve the original Webflow site
+   used (outQuart family). Transform and opacity only, so nothing shifts layout.
+
+   Scroll reveals are opt-in per element (data-reveal) and only armed when the
+   inline script in Layout.astro adds .js-reveal to <html> — so with JS off,
+   for crawlers, or with reduced motion, content is simply visible. */
+:root {
+  --ease-settle: cubic-bezier(0.22, 1, 0.36, 1);
+}
+.js-reveal [data-reveal] {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s var(--ease-settle), transform 0.7s var(--ease-settle);
+  transition-delay: calc(var(--i, 0) * 80ms);
+}
+.js-reveal [data-reveal].is-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* Hero entrance, played once on load. Pure CSS: it ends in the visible state
+   whether or not scripts run. */
+@keyframes hero-wipe {
+  from { clip-path: inset(100% 0 0 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+@keyframes hero-rise {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes hero-draw {
+  from { stroke-dashoffset: 100; }
+  to { stroke-dashoffset: 0; }
+}
+.hero-photo {
+  animation: hero-wipe 0.9s var(--ease-settle) 0.15s both;
+}
+.hero-rise {
+  animation: hero-rise 0.8s var(--ease-settle) both;
+  animation-delay: calc(0.35s + var(--i, 0) * 120ms);
+}
+.hero-swoosh {
+  stroke-dasharray: 100;
+  animation: hero-draw 1.1s var(--ease-settle) both;
+}
+
+/* Photos ease up slightly under the pointer */
+.photo-zoom {
+  transition: transform 0.6s var(--ease-settle);
+}
+.group:hover .photo-zoom,
+a:hover > .photo-zoom,
+a:hover .photo-zoom {
+  transform: scale(1.04);
+}
+
 /* §6 WCAG 2.2 AA — reduced motion */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
+    animation-delay: 0s !important;
     animation-iteration-count: 1 !important;
+    transition-delay: 0s !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }

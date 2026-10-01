@@ -15,17 +15,17 @@ const { item } = Astro.props;
 const label = fill(site.ui.watchTestimonial, { name: item.name.split(" ")[0] });
 ---
 
-<figure>
-  <div class="yt relative aspect-video overflow-hidden rounded-xl bg-navy" data-id={item.youtubeId} data-title={item.name}>
-    <SiteImage image={item.image} class="absolute inset-0 h-full w-full object-cover" sizes="(min-width: 1024px) 33vw, 100vw" widths={[480, 800]} />
-    <button type="button" class="yt-play absolute inset-0 flex items-center justify-center bg-navy/25 hover:bg-navy/10 transition-colors" aria-label={label}>
-      <span class="flex h-16 w-16 items-center justify-center rounded-full bg-accent text-navy shadow-lg">
+<figure class="group">
+  <div class="yt relative aspect-[4/5] overflow-hidden rounded-[22px] bg-navy" data-id={item.youtubeId} data-title={item.name}>
+    <SiteImage image={item.image} class="photo-zoom absolute inset-0 h-full w-full object-cover" sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 85vw" widths={[400, 700]} />
+    <button type="button" class="yt-play absolute inset-0 flex items-end justify-start p-5" aria-label={label}>
+      <span class="flex h-16 w-16 items-center justify-center rounded-full bg-accent text-navy shadow-lg transition-transform group-hover:scale-105">
         <Icon name="play" class="w-7 h-7 ml-1" />
       </span>
     </button>
   </div>
   <figcaption class="mt-4 font-display">
-    <span class="block font-bold text-navy">{item.name}</span>
+    <span class="block text-[1.35rem] font-extrabold text-navy">{item.name}</span>
     <span class="block text-sm text-gray-700">{item.detail}</span>
   </figcaption>
 </figure>

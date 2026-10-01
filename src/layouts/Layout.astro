@@ -163,6 +163,23 @@ const jsonLd = {
   <body class="bg-white text-ink antialiased">
     <a href="#main" class="skip-link">{site.ui.skipLink}</a>
     <slot />
+    {/* Arms scroll reveals. Runs at the end of <body>, so elements already in
+        view are revealed in the same frame they are hidden — no flash. Skipped
+        entirely with reduced motion or without IntersectionObserver. */}
+    <script is:inline>
+      (function () {
+        if (!("IntersectionObserver" in window) || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+        var els = document.querySelectorAll("[data-reveal]");
+        if (!els.length) return;
+        document.documentElement.classList.add("js-reveal");
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) {
+            if (e.isIntersecting) { e.target.classList.add("is-in"); io.unobserve(e.target); }
+          });
+        }, { rootMargin: "0px 0px -8% 0px" });
+        els.forEach(function (el) { io.observe(el); });
+      })();
+    </script>
     <p class="text-center py-3 text-xs text-gray-600 bg-white font-display">
       <a href={ATTRIBUTION.url} class="hover:text-ink transition-colors">
         {ATTRIBUTION.text}

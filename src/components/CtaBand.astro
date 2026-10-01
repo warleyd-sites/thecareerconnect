@@ -1,28 +1,28 @@
 ---
-import { site, telHref } from "@/config/site";
-import Icon from "@/components/Icon.astro";
-import ContactForm from "@/components/ContactForm.astro";
+/**
+ * Closing booking moment used across the site. Deliberately no form here:
+ * the contact form lives only on /contact (a test guards this), so pages end
+ * on one personal action — talking to Carla — not a lead-capture banner.
+ */
+import { site, telHref, fill } from "@/config/site";
+import SiteImage from "@/components/SiteImage.astro";
+import BookingButton from "@/components/BookingButton.astro";
 
-const home = site.home;
+const b = site.booking;
 ---
 
-<section id="contact" class="bg-mist py-20 px-4 sm:px-6">
-  <div class="max-w-6xl mx-auto grid lg:grid-cols-[1fr_1.1fr] gap-12 items-start">
-    <div>
-      <h2 class="text-3xl sm:text-4xl font-extrabold text-navy">{home.ctaHeading}</h2>
-      <p class="mt-4 text-lg text-gray-800">{home.ctaBody}</p>
-      <ul class="mt-8 space-y-4">
-        {home.ctaBullets.map((b) => (
-          <li class="flex gap-3">
-            <span class="mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-navy text-accent"><Icon name="check" class="w-4 h-4" /></span>
-            <span>{b}</span>
-          </li>
-        ))}
-      </ul>
-      <a href={telHref} class="mt-10 inline-flex items-center gap-3 font-display text-2xl font-extrabold text-navy hover:text-brand">
-        <Icon name="phone" class="w-7 h-7 text-accent" />{site.business.phone}
-      </a>
+<section id="book" class="px-4 sm:px-6 py-20 sm:py-24">
+  <div class="max-w-4xl mx-auto flex flex-col sm:flex-row items-center gap-10 sm:gap-12 text-center sm:text-left" data-reveal>
+    <div class="w-32 h-32 sm:w-44 sm:h-44 shrink-0 rounded-full overflow-hidden outline outline-2 outline-gold outline-offset-[8px]">
+      <SiteImage image={{ file: site.about.ownerImage.file, alt: "" }} class="h-full w-full object-cover object-[50%_30%]" sizes="176px" widths={[176, 352]} />
     </div>
-    <ContactForm />
+    <div>
+      <h2 class="text-3xl sm:text-4xl font-extrabold text-navy">{b.heading}</h2>
+      <p class="mt-4 text-lg text-gray-800">{b.body}</p>
+      <div class="mt-7 flex flex-col sm:flex-row items-center gap-4 sm:gap-6 font-display">
+        <BookingButton size="long" />
+        <a href={telHref} class="font-semibold text-navy hover:underline">{fill(b.orCall, { phone: site.business.phone })}</a>
+      </div>
+    </div>
   </div>
 </section>

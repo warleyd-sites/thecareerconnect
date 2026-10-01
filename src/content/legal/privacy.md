@@ -24,6 +24,8 @@ We do not sell your personal information, and we do not share it with advertiser
 
 We share information only with service providers that help us run this website and our business, such as our web host and the email service that delivers contact form messages to us. They may use it only to provide those services.
 
+Booking a consultation uses Calendly. Nothing from Calendly loads until you choose to book; once you do, Calendly's privacy policy applies to the information you enter there.
+
 Some pages include video testimonials hosted on YouTube. No YouTube content loads until you press play; once you do, YouTube's privacy policy applies to that video.
 
 ## Confidentiality

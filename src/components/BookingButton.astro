@@ -1,0 +1,62 @@
+---
+/**
+ * The one booking action on the site: opens Carla's Calendly in a popup.
+ *
+ * Nothing from Calendly loads until the first click — no third-party script,
+ * request or cookie on page load. Without JavaScript, or if Calendly's script
+ * fails, it is an ordinary link to the Calendly page in a new tab.
+ */
+import { site } from "@/config/site";
+
+interface Props {
+  /** "long" reads "Book a 30-minute consultation". */
+  size?: "short" | "long";
+  class?: string;
+}
+const { size = "short", class: className = "btn-primary" } = Astro.props;
+const label = size === "long" ? site.booking.longLabel : site.booking.label;
+---
+
+<a href={site.booking.url} target="_blank" rel="noopener" class={className} data-booking>{label}</a>
+
+<script>
+  const SCRIPT = "https://assets.calendly.com/assets/external/widget.js";
+  const STYLE = "https://assets.calendly.com/assets/external/widget.css";
+  let loading: Promise<void> | null = null;
+
+  type CalendlyApi = { initPopupWidget: (o: { url: string }) => void };
+
+  function loadCalendly(): Promise<void> {
+    if ((window as unknown as { Calendly?: CalendlyApi }).Calendly) return Promise.resolve();
+    loading ??= new Promise((resolve, reject) => {
+      const css = document.createElement("link");
+      css.rel = "stylesheet";
+      css.href = STYLE;
+      document.head.append(css);
+      const js = document.createElement("script");
+      js.src = SCRIPT;
+      js.async = true;
+      js.onload = () => resolve();
+      js.onerror = () => {
+        loading = null;
+        reject(new Error("calendly failed to load"));
+      };
+      document.head.append(js);
+    });
+    return loading;
+  }
+
+  document.querySelectorAll<HTMLAnchorElement>("a[data-booking]").forEach((a) => {
+    a.addEventListener("click", async (e) => {
+      // Let modified clicks (new tab/window) behave like a normal link.
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
+      e.preventDefault();
+      try {
+        await loadCalendly();
+        (window as unknown as { Calendly: CalendlyApi }).Calendly.initPopupWidget({ url: a.href });
+      } catch {
+        window.open(a.href, "_blank", "noopener");
+      }
+    });
+  });
+</script>

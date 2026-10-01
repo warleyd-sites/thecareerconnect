@@ -14,7 +14,7 @@ Each entry: what is blocked, what unblocks it, who can do it.
 
 - **Mirror the new phone, email, logo and portrait into the Webflow project** (not published; see `CLAUDE.md`, Webflow mirror).
 
-- **Founder-led redesign: parked, not shipping.** The client loves the current site (2026-10-01), so the redesign lives on branch `redesign` (commit `5d9f39f`), with mockups at https://claude.ai/artifact/LFBGriJPsHrC89dScEni5r. It brings back Calendly booking, adds motion and makes the home page story-first. Revive it only if the owner asks. Its open questions (a professional portrait of Carla, and which Calendly event to promote) apply only if it ships.
+- **Founder-led redesign: the version the client loved** (hero with the career photo, Calendly booking, stories first, motion). Combined with the 2026-10-01 logo, portrait, contact and speed updates on branch `redesign-merged`; ships to production on the owner's go.
 - Mirror the new design and copy into the Webflow backup once the owner approves the Vercel version (see `CLAUDE.md` → Webflow mirror).
 
 ## Done 2026-10-01

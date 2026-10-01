@@ -5,6 +5,7 @@ import Footer from "@/components/Footer.astro";
 import PageHeader from "@/components/PageHeader.astro";
 import Icon from "@/components/Icon.astro";
 import Faq from "@/components/Faq.astro";
+import BookingButton from "@/components/BookingButton.astro";
 import { site } from "@/config/site";
 
 const p = site.pricing;
@@ -50,7 +51,7 @@ const faq = site.pages.services.faq;
             </div>
           ))}
         </div>
-        <a href="/contact" class="btn-primary mt-10">{p.cta}</a>
+        <div class="mt-10"><BookingButton size="long" /></div>
       </div>
     </section>
 

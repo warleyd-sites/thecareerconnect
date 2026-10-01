@@ -22,8 +22,8 @@
       "West Virginia"
     ],
     "heroImage": {
-      "file": "hero-handshake.jpg",
-      "alt": "A smiling young professional shaking hands across a desk at an interview"
+      "file": "hero-professional.jpg",
+      "alt": "A confident young professional in a blazer, arms folded"
     },
     "hours": [
       {
@@ -72,8 +72,8 @@
     "description": "Career Connect Consultants helps students, parents, educators and school districts with career counseling, job search support, internships, networking and professional development across the Mid-Atlantic.",
     "titleSuffix": "| Career Connect Consultants",
     "ogImage": {
-      "file": "hero-handshake.jpg",
-      "alt": "A young professional shaking hands at an interview"
+      "file": "hero-professional.jpg",
+      "alt": "A confident young professional in a blazer"
     }
   },
   "ui": {
@@ -91,8 +91,7 @@
       "call": "Call"
     },
     "hero": {
-      "primaryCta": "Book a consultation",
-      "secondaryCta": "Explore our services"
+      "callPrefix": "or call"
     },
     "footer": {
       "siteHeading": "Company",
@@ -110,7 +109,7 @@
     "relatedHeading": "Keep reading",
     "watch": "Play video",
     "watchTestimonial": "Watch {name}'s story",
-    "allTestimonials": "Watch all testimonials",
+    "allTestimonials": "Watch all stories",
     "servicesIncludedHeading": "What we cover",
     "servicesApproachHeading": "How we work",
     "servicesOfferedHeading": "Services offered",
@@ -128,8 +127,8 @@
     "lastUpdated": "Last updated"
   },
   "form": {
-    "heading": "Book a consultation",
-    "intro": "Tell us a little about yourself and what you need. We respond within 24 hours.",
+    "heading": "Send us a message",
+    "intro": "Questions about our services, pricing or partnerships? Send a note and we respond within 24 hours.",
     "name": "Full name",
     "email": "Email",
     "phone": "Phone (optional)",
@@ -165,7 +164,7 @@
     "audiences": [
       {
         "title": "Students",
-        "body": "Career exploration, scholarship guidance, resumes, interviews and internships, so students can dream big and have a plan to get there.",
+        "body": "Find a direction, then the resume, interview skills and internships to follow it.",
         "image": {
           "file": "student.jpg",
           "alt": "A smiling high school student with a backpack"
@@ -173,7 +172,7 @@
       },
       {
         "title": "Parents",
-        "body": "Clear guidance for families supporting a student through career choices, scholarships and the move from school to work.",
+        "body": "Clear guidance for families helping a student from school to work.",
         "image": {
           "file": "parent-child.jpg",
           "alt": "A father helping his daughter with schoolwork on a tablet"
@@ -181,7 +180,7 @@
       },
       {
         "title": "School districts",
-        "body": "Career development built into the curriculum, with workshops and programs designed around each district's students.",
+        "body": "Career development built into the curriculum, shaped around your students.",
         "image": {
           "file": "school-building.jpg",
           "alt": "A modern school building on a sunny day"
@@ -189,7 +188,7 @@
       },
       {
         "title": "Educators",
-        "body": "Professional development for teachers and counselors: the latest career development techniques and resources to guide students.",
+        "body": "Training for teachers and counselors who guide students toward careers.",
         "image": {
           "file": "educators-classroom.jpg",
           "alt": "A teacher leading an engaged group of adult learners"
@@ -213,18 +212,14 @@
     ],
     "servicesHeading": "Our services",
     "servicesIntro": "Six ways we help people move from school to a career, whether you're a student, a parent or an educator.",
-    "testimonialsHeading": "In their own words",
     "blogHeading": "From the blog",
     "blogIntro": "Practical advice on careers, interviews and networking.",
-    "ctaHeading": "Ready to take the first step?",
-    "ctaBody": "Reach out to learn how Career Connect can help you, your student or your school. We're happy to answer questions and talk through what you need.",
-    "ctaBullets": [
-      "Payment by credit card, Zelle or Venmo, with payment plans available",
-      "Every engagement is covered by a privacy agreement and NDA",
-      "Serving families and schools across seven Mid-Atlantic and Southeast states"
-    ],
-    "stats": [],
-    "gallery": []
+    "heroLede": "Career development for students, families and schools",
+    "heroBody": "From a first resume to a first job, we guide students, parents, educators and school districts across Maryland and six neighboring states.",
+    "storiesHeading": "In their own words",
+    "storiesIntro": "People who have worked with Career Connect, on what changed for them.",
+    "meetHeading": "Meet Carla",
+    "meetLink": "Read our story"
   },
   "services": [
     {
@@ -676,7 +671,7 @@
       "All services are covered by our privacy agreement",
       "All clients sign a non-disclosure agreement"
     ],
-    "cta": "Ask about pricing"
+    "cta": "Book a 30-minute consultation"
   },
   "testimonials": {
     "heading": "Testimonials",
@@ -788,5 +783,13 @@
       "partnerBody": "We partner with schools, organizations and industry professionals to help people on their career journeys. If you'd like to work together, get in touch.",
       "expectBullets": []
     }
+  },
+  "booking": {
+    "url": "https://calendly.com/thecareerconnect",
+    "label": "Book a consultation",
+    "longLabel": "Book a 30-minute consultation",
+    "heading": "Talk it through with Carla",
+    "body": "Book a 30-minute consultation at a time that suits you. Bring your questions, your student's goals or your school's plans, and leave with a clear next step.",
+    "orCall": "or call {phone}"
   }
 }
