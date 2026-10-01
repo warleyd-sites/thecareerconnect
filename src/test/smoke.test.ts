@@ -320,5 +320,7 @@ describe("booking", () => {
     const csp = vercelConfig.headers[0].headers.find((h) => h.key === "Content-Security-Policy")!.value;
     expect(csp).toMatch(/script-src[^;]*https:\/\/assets\.calendly\.com/);
     expect(csp).toMatch(/frame-src[^;]*https:\/\/calendly\.com/);
+    // The popup's close button is an image from assets.calendly.com.
+    expect(csp).toMatch(/img-src[^;]*https:\/\/assets\.calendly\.com/);
   });
 });
