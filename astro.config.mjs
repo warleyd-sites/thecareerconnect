@@ -13,6 +13,12 @@ const isProd = process.env.PUBLIC_IS_PRODUCTION === "true";
 export default defineConfig({
   output: "static",
   site: siteUrl,
+  // One URL per page, no trailing slash: /about, never /about/. Matches every
+  // internal link and redirect; vercel.json (cleanUrls + trailingSlash:false)
+  // serves about.html at /about and 308s /about/ to it. Canonicals and the
+  // sitemap follow from this.
+  trailingSlash: "never",
+  build: { format: "file" },
   integrations: [
     tailwind(),
     // A preview build is noindex, so shipping a sitemap for it would send

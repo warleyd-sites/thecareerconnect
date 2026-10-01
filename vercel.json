@@ -2,6 +2,8 @@
   "framework": "astro",
   "outputDirectory": "dist",
   "buildCommand": "npm run build",
+  "cleanUrls": true,
+  "trailingSlash": false,
   "functions": {
     "api/contact.ts": { "includeFiles": "src/site-data.json" }
   },

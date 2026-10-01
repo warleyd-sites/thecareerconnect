@@ -15,7 +15,9 @@ interface Props {
 
 const { title, description = site.seo.description, faq = [] } = Astro.props;
 
-const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : null;
+// build.format "file" makes the pathname "/about.html"; the public URL is "/about".
+const cleanPath = Astro.url.pathname.replace(/(index)?\.html$/, "").replace(/(.)\/$/, "$1") || "/";
+const canonical = Astro.site ? new URL(cleanPath, Astro.site).href : null;
 const origin = canonical ? new URL("/", canonical).href : null;
 
 // Social preview image: built from the client's own hero photo, made absolute
