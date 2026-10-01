@@ -6,8 +6,9 @@ import Footer from "@/components/Footer.astro";
 import SiteImage from "@/components/SiteImage.astro";
 import Icon from "@/components/Icon.astro";
 import TestimonialVideo from "@/components/TestimonialVideo.astro";
+import BookingButton from "@/components/BookingButton.astro";
 import CtaBand from "@/components/CtaBand.astro";
-import { site } from "@/config/site";
+import { site, telHref, fill } from "@/config/site";
 
 const home = site.home;
 const ui = site.ui;
@@ -17,64 +18,69 @@ const posts = (await getCollection("blog")).sort((a, b) => b.data.date.valueOf()
 <Layout title={site.business.tagline}>
   <Nav />
   <main id="main">
-    <!-- Hero: the tagline in italic Baskerville, as the brand kit sets it -->
+    <!-- Hero: Carla's own words beside a career photo, one booking action -->
     <section class="relative overflow-hidden bg-navy text-white px-4 sm:px-6">
-      <div class="relative z-10 max-w-6xl mx-auto pt-14 pb-28 sm:pt-20 sm:pb-36 grid lg:grid-cols-[1.15fr_1fr] gap-12 items-center">
-        <div>
-          <p class="gold-rule max-w-md font-display text-xs font-semibold tracking-[0.2em]">
-            <span class="text-white/90">{site.business.name.toUpperCase()}</span>
+      <div class="relative z-10 max-w-6xl mx-auto pt-10 pb-32 sm:pt-16 sm:pb-40 grid lg:grid-cols-12 gap-x-6 gap-y-10 items-center">
+        <div class="lg:col-span-7 flex flex-col gap-6 sm:gap-7 order-2 lg:order-1">
+          <p class="hero-rise font-display font-semibold text-[0.95rem] text-gold" style="--i:0">{home.heroLede}</p>
+          <blockquote class="hero-rise font-body italic text-[2rem] leading-[1.18] sm:text-5xl sm:leading-[1.14] tracking-tight" style="--i:1">
+            “{site.about.ownerQuote}”
+          </blockquote>
+          <p class="hero-rise flex flex-wrap items-center gap-x-3.5 gap-y-1 font-display" style="--i:2">
+            <span aria-hidden="true" class="h-0.5 w-10 bg-gold"></span>
+            <span class="font-bold text-[1.05rem]">{site.about.ownerName}</span>
+            <span class="text-[0.95rem] text-white/80">{site.about.ownerTitle}, {site.business.shortName} Consultants</span>
           </p>
-          <h1 class="mt-6 font-body italic font-normal text-5xl sm:text-6xl lg:text-7xl leading-[1.05] tracking-tight">
-            {site.business.tagline}
-          </h1>
-          <p class="mt-6 max-w-xl text-lg sm:text-xl text-white/85">{site.business.pitch}</p>
-          <div class="mt-9 flex flex-wrap gap-3">
-            <a href="/contact" class="btn-primary">{ui.hero.primaryCta}</a>
-            <a href="/services" class="btn-secondary text-white">{ui.hero.secondaryCta}</a>
+          <p class="hero-rise max-w-xl text-lg leading-relaxed text-white/85" style="--i:3">{home.heroBody}</p>
+          <div class="hero-rise flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 font-display" style="--i:4">
+            <BookingButton size="long" />
+            <a href={telHref} class="text-center sm:text-left font-semibold text-white hover:underline">{fill(site.booking.orCall, { phone: site.business.phone })}</a>
           </div>
         </div>
-        <div class="relative">
-          <div class="relative aspect-[4/5] sm:aspect-[5/4] lg:aspect-[4/5] overflow-hidden rounded-[2rem] rounded-tl-[6rem] ring-1 ring-white/10">
-            <SiteImage image={site.business.heroImage} class="h-full w-full object-cover" sizes="(min-width: 1024px) 45vw, 100vw" loading="eager" fetchpriority="high" />
+        <div class="lg:col-span-4 lg:col-start-9 order-1 lg:order-2 px-3 sm:px-0">
+          <div class="relative mx-auto w-full max-w-[18rem] sm:max-w-xs lg:max-w-none aspect-[3/4]" style="--arch-y:37.5%">
+            <div aria-hidden="true" class="arch absolute inset-0 translate-x-3 translate-y-3 sm:translate-x-5 sm:translate-y-5 border-2 border-gold"></div>
+            <div class="arch hero-photo relative h-full overflow-hidden">
+              <SiteImage image={site.business.heroImage} class="h-full w-full object-cover object-[74%_22%]" sizes="(min-width: 1024px) 380px, 90vw" widths={[400, 700, 1000]} loading="eager" fetchpriority="high" />
+            </div>
           </div>
         </div>
       </div>
-      <svg aria-hidden="true" class="absolute bottom-0 left-0 w-full h-20 sm:h-32" viewBox="0 0 1440 140" preserveAspectRatio="none">
-        <path d="M0 140 C 360 30, 900 20, 1440 80 L1440 140 Z" fill="white" />
-        <path d="M0 128 C 380 18, 920 6, 1440 66 L1440 76 C 920 20, 380 36, 0 140 Z" fill="var(--color-accent)" />
+      <svg aria-hidden="true" class="absolute bottom-0 left-0 w-full h-20 sm:h-32" viewBox="0 0 1440 150" preserveAspectRatio="none">
+        <path d="M0 150 C 380 40, 940 30, 1440 92 L1440 150 Z" fill="white" />
+        <path class="hero-swoosh" d="M0 138 C 400 26, 960 14, 1440 76" fill="none" stroke="var(--color-accent)" stroke-width="9" stroke-linecap="round" pathLength="100" />
       </svg>
     </section>
 
-    <!-- Intro and why us -->
-    <section class="py-20 px-4 sm:px-6">
-      <div class="max-w-6xl mx-auto grid lg:grid-cols-[1fr_1.4fr] gap-12">
-        <div>
-          <h2 class="text-3xl sm:text-4xl font-extrabold text-navy">{home.introHeading}</h2>
-          <p class="mt-5 text-lg text-gray-800">{home.aboutParagraph}</p>
-        </div>
-        <div>
-          <h3 class="font-display text-sm font-bold text-brand">{home.pillarsHeading}</h3>
-          <div class="mt-4 grid sm:grid-cols-3 gap-8">
-            {home.pillars.map((p) => (
-              <div class="border-t-2 border-gold pt-5">
-                <h4 class="text-xl font-bold text-navy">{p.title}</h4>
-                <p class="mt-2 text-[0.97rem] text-gray-800">{p.body}</p>
-              </div>
-            ))}
+    <!-- Stories, straight after the hero -->
+    <section class="px-4 sm:px-6 pt-8 pb-20 sm:pb-24">
+      <div class="max-w-6xl mx-auto">
+        <div class="flex flex-wrap items-end justify-between gap-4" data-reveal>
+          <div>
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-navy">{home.storiesHeading}</h2>
+            <p class="mt-2 text-gray-800">{home.storiesIntro}</p>
           </div>
+          <a href="/testimonials" class="font-display font-semibold text-brand hover:underline">{ui.allTestimonials}</a>
+        </div>
+        <div data-reveal class="mt-10 -mx-4 px-4 sm:mx-0 sm:px-0 flex sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7 overflow-x-auto snap-x snap-mandatory sm:overflow-visible">
+          {site.testimonials.items.map((t) => (
+            <div class="shrink-0 w-[78%] sm:w-auto snap-start">
+              <TestimonialVideo item={t} />
+            </div>
+          ))}
         </div>
       </div>
     </section>
 
-    <!-- Audiences -->
-    <section class="pb-20 px-4 sm:px-6">
+    <!-- Who we help -->
+    <section class="bg-mist px-4 sm:px-6 py-20">
       <div class="max-w-6xl mx-auto">
-        <h2 class="text-3xl sm:text-4xl font-extrabold text-navy">{home.audiencesHeading}</h2>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-navy" data-reveal>{home.audiencesHeading}</h2>
         <div class="mt-10 grid sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-10">
-          {home.audiences.map((a) => (
-            <div>
-              <div class="aspect-[4/3] overflow-hidden rounded-xl bg-mist">
-                <SiteImage image={a.image} class="h-full w-full object-cover" sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw" widths={[400, 700]} />
+          {home.audiences.map((a, i) => (
+            <div class="group" data-reveal style={`--i:${i}`}>
+              <div class="aspect-[4/3] overflow-hidden rounded-2xl bg-white">
+                <SiteImage image={a.image} class="photo-zoom h-full w-full object-cover" sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw" widths={[400, 700]} />
               </div>
               <h3 class="mt-5 text-xl font-bold text-navy">{a.title}</h3>
               <p class="mt-2 text-[0.97rem] text-gray-800">{a.body}</p>
@@ -84,62 +90,58 @@ const posts = (await getCollection("blog")).sort((a, b) => b.data.date.valueOf()
       </div>
     </section>
 
-    <!-- Services as an index list, not a card grid -->
-    <section class="bg-navy text-white py-20 px-4 sm:px-6">
+    <!-- Services: index list; on wide screens the hovered service's photo shows alongside -->
+    <section class="bg-navy text-white px-4 sm:px-6 py-20">
       <div class="max-w-6xl mx-auto">
-        <div class="max-w-2xl">
+        <div class="max-w-2xl" data-reveal>
           <h2 class="text-3xl sm:text-4xl font-extrabold">{home.servicesHeading}</h2>
           <p class="mt-4 text-lg text-white/85">{home.servicesIntro}</p>
         </div>
-        <ul class="mt-12 grid md:grid-cols-2 gap-x-12 border-t border-white/15">
-          {site.services.map((s) => (
-            <li class="border-b border-white/15">
-              <a href={`/services/${s.slug}`} class="group flex gap-5 py-8">
-                <span class="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-white/10 text-accent group-hover:bg-accent group-hover:text-navy transition-colors">
-                  <Icon name={s.icon} />
-                </span>
-                <span>
-                  <span class="block font-display text-xl font-bold group-hover:text-accent transition-colors">{s.name}</span>
-                  <span class="mt-1 block text-white/80">{s.description}</span>
-                  <span class="mt-3 block font-display text-sm text-gold">{s.highlights.join(" / ")}</span>
-                </span>
-              </a>
-            </li>
-          ))}
-        </ul>
+        <div class="mt-12 grid lg:grid-cols-12 gap-10">
+          <ul class="lg:col-span-7 border-t border-white/15" data-service-list>
+            {site.services.map((s, i) => (
+              <li class="border-b border-white/15" data-reveal style={`--i:${i}`}>
+                <a href={`/services/${s.slug}`} class="group flex gap-5 py-6" data-service-index={i}>
+                  <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white/10 text-accent group-hover:bg-accent group-hover:text-navy transition-colors">
+                    <Icon name={s.icon} class="w-6 h-6" />
+                  </span>
+                  <span>
+                    <span class="block font-display text-xl font-bold group-hover:text-accent transition-colors">{s.name}</span>
+                    <span class="mt-1 block text-white/80">{s.description}</span>
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+          <div class="hidden lg:block lg:col-span-5">
+            <div class="arch sticky top-28 aspect-[4/5] overflow-hidden bg-white/5 isolate" style="--arch-y:40%">
+              {site.services.map((s, i) => (
+                <div class={`absolute inset-0 overflow-hidden arch transition-opacity duration-500 ${i === 0 ? "opacity-100" : "opacity-0"}`} data-service-photo={i}>
+                  <SiteImage image={{ file: s.image.file, alt: "" }} class="h-full w-full object-cover" sizes="440px" widths={[440, 880]} />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
-    <!-- Founder -->
-    <section class="py-20 px-4 sm:px-6">
-      <div class="max-w-5xl mx-auto grid md:grid-cols-[auto_1fr] gap-10 items-center">
-        <div class="mx-auto w-56 h-56 sm:w-64 sm:h-64 overflow-hidden rounded-full ring-8 ring-mist">
-          <SiteImage image={site.about.ownerImage} class="h-full w-full object-cover" sizes="256px" widths={[256, 512]} />
+    <!-- Meet Carla -->
+    <section class="px-4 sm:px-6 py-20">
+      <div class="max-w-5xl mx-auto grid md:grid-cols-[auto_1fr] gap-10 items-center" data-reveal>
+        <div class="mx-auto w-52 h-52 sm:w-60 sm:h-60 overflow-hidden rounded-full ring-8 ring-mist">
+          <SiteImage image={site.about.ownerImage} class="h-full w-full object-cover object-[50%_30%]" sizes="240px" widths={[240, 480]} />
         </div>
-        <figure>
-          <blockquote class="font-body italic text-2xl sm:text-3xl leading-snug text-navy">“{site.about.ownerQuote}”</blockquote>
-          <figcaption class="mt-5 font-display">
-            <span class="font-bold text-navy">{site.about.ownerName}</span><span class="text-gray-700">, {site.about.ownerTitle}</span>
-          </figcaption>
-        </figure>
-      </div>
-    </section>
-
-    <!-- Testimonials -->
-    <section class="pb-20 px-4 sm:px-6">
-      <div class="max-w-6xl mx-auto">
-        <div class="flex flex-wrap items-end justify-between gap-4">
-          <h2 class="text-3xl sm:text-4xl font-extrabold text-navy">{home.testimonialsHeading}</h2>
-          <a href="/testimonials" class="font-display font-semibold text-brand hover:underline">{ui.allTestimonials}</a>
-        </div>
-        <div class="mt-10 grid md:grid-cols-3 gap-8">
-          {site.testimonials.items.map((t) => <TestimonialVideo item={t} />)}
+        <div>
+          <h2 class="text-3xl font-extrabold text-navy">{home.meetHeading}</h2>
+          <p class="mt-4 text-lg leading-relaxed text-gray-800">{site.about.story}</p>
+          <a href="/about" class="mt-5 inline-block font-display font-semibold text-brand hover:underline">{home.meetLink}</a>
         </div>
       </div>
     </section>
 
     <!-- Blog -->
-    <section class="pb-20 px-4 sm:px-6">
+    <section class="px-4 sm:px-6 pb-8">
       <div class="max-w-6xl mx-auto border-t border-gray-200 pt-16">
         <div class="flex flex-wrap items-end justify-between gap-4">
           <div>
@@ -152,8 +154,8 @@ const posts = (await getCollection("blog")).sort((a, b) => b.data.date.valueOf()
           {posts.map((p) => (
             <article>
               <a href={`/blog/${p.slug}`} class="group block">
-                <div class="aspect-[16/10] overflow-hidden rounded-xl bg-mist">
-                  <SiteImage image={p.data.image} class="h-full w-full object-cover" sizes="(min-width: 768px) 33vw, 100vw" widths={[400, 700]} />
+                <div class="aspect-[16/10] overflow-hidden rounded-2xl bg-mist">
+                  <SiteImage image={p.data.image} class="photo-zoom h-full w-full object-cover" sizes="(min-width: 768px) 33vw, 100vw" widths={[400, 700]} />
                 </div>
                 <p class="mt-4 font-display text-xs font-semibold text-brand">{p.data.category}</p>
                 <h3 class="mt-1 text-xl font-bold text-navy group-hover:text-brand">{p.data.title}</h3>
@@ -168,3 +170,19 @@ const posts = (await getCollection("blog")).sort((a, b) => b.data.date.valueOf()
   </main>
   <Footer />
 </Layout>
+
+<script>
+  // Services: show the hovered/focused service's photo in the panel beside the list.
+  const photos = document.querySelectorAll<HTMLElement>("[data-service-photo]");
+  document.querySelectorAll<HTMLElement>("[data-service-index]").forEach((link) => {
+    const show = () => {
+      photos.forEach((p) => {
+        const on = p.dataset.servicePhoto === link.dataset.serviceIndex;
+        p.classList.toggle("opacity-100", on);
+        p.classList.toggle("opacity-0", !on);
+      });
+    };
+    link.addEventListener("mouseenter", show);
+    link.addEventListener("focus", show);
+  });
+</script>

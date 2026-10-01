@@ -93,7 +93,6 @@ describe("smoke: images", () => {
   it("resolves every image slot referenced by site-data.json", () => {
     const slots: { file: string; alt: string }[] = [
       site.business.heroImage,
-      ...(site.home.gallery ?? []),
       ...(site.pages.about.images ?? []),
       ...site.services.map((s) => s.image),
       ...site.home.audiences.map((a) => a.image),
@@ -119,7 +118,6 @@ describe("smoke: images", () => {
     // exempt — "plenty of our work is one-time" is the client's own prose.
     const alts = [
       site.business.heroImage,
-      ...(site.home.gallery ?? []),
       ...(site.pages.about.images ?? []),
       ...site.services.map((s) => s.image),
       ...site.home.audiences.map((a) => a.image),
@@ -306,5 +304,42 @@ describe("contact endpoint", () => {
     const res = await post({ name: "A", email: "a@b.co", message: "hi" });
     expect(res.status).toBe(500);
     if (prev) process.env.RESEND_API_KEY = prev;
+  });
+});
+
+describe("booking and motion", () => {
+  it("books through the client's Calendly page", () => {
+    const url = new URL(site.booking.url);
+    expect(url.protocol).toBe("https:");
+    expect(url.hostname).toBe("calendly.com");
+  });
+
+  it("lets Calendly through the content security policy", () => {
+    const csp = vercelConfig.headers[0].headers.find((h) => h.key === "Content-Security-Policy")!.value;
+    expect(csp).toMatch(/script-src[^;]*https:\/\/assets\.calendly\.com/);
+    expect(csp).toMatch(/frame-src[^;]*https:\/\/calendly\.com/);
+  });
+
+  it("keeps the contact form on /contact only, so pages don't turn back into lead-gen banners", () => {
+    const SRC = new URL("..", import.meta.url).pathname;
+    const walk = (dir: string): string[] =>
+      readdirSync(dir).flatMap((e) => {
+        const full = join(dir, e);
+        return statSync(full).isDirectory() ? walk(full) : full.endsWith(".astro") ? [full] : [];
+      });
+    const users = walk(SRC)
+      .filter((f) => !f.endsWith("ContactForm.astro"))
+      .filter((f) => /import\s+ContactForm\b/.test(readFileSync(f, "utf8")))
+      .map((f) => f.replace(SRC, ""));
+    expect(users).toEqual(["pages/contact.astro"]);
+  });
+
+  it("never hides content unless the reveal script has armed itself", () => {
+    // Hidden state must hang off .js-reveal (added by script), never off
+    // [data-reveal] alone, or no-JS visitors and crawlers see blank sections.
+    const css = readFileSync(new URL("../styles/global.css", import.meta.url), "utf8");
+    const hidingRules = css.match(/[^}]*\[data-reveal\][^{]*\{[^}]*opacity:\s*0/g) ?? [];
+    expect(hidingRules.length).toBeGreaterThan(0);
+    for (const rule of hidingRules) expect(rule).toContain(".js-reveal");
   });
 });

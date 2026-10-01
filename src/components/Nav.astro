@@ -1,6 +1,7 @@
 ---
 import { site, telHref } from "@/config/site";
 import Logo from "@/components/Logo.astro";
+import BookingButton from "@/components/BookingButton.astro";
 
 const ui = site.ui.nav;
 const links = [
@@ -43,7 +44,7 @@ const isCurrent = (href: string) => path === href || path.startsWith(`${href}/`)
     </div>
 
     <div class="flex items-center gap-2">
-      <span class="hidden sm:block"><a href="/contact" class="btn-primary !py-2.5 !px-5 !text-sm">{ui.cta}</a></span>
+      <span class="hidden sm:block"><BookingButton class="btn-primary !py-2.5 !px-5 !text-sm" /></span>
       <button
         id="mobile-menu-btn"
         type="button"
@@ -79,7 +80,7 @@ const isCurrent = (href: string) => path === href || path.startsWith(`${href}/`)
         ))}
       </ul>
       <div class="grid gap-2 mt-3">
-        <a href="/contact" class="btn-primary">{ui.cta}</a>
+        <BookingButton />
         <a href={telHref} class="btn-secondary text-navy">{ui.call} {site.business.phone}</a>
       </div>
     </div>
