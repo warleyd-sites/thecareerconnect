@@ -318,6 +318,8 @@ describe("booking and motion", () => {
     const csp = vercelConfig.headers[0].headers.find((h) => h.key === "Content-Security-Policy")!.value;
     expect(csp).toMatch(/script-src[^;]*https:\/\/assets\.calendly\.com/);
     expect(csp).toMatch(/frame-src[^;]*https:\/\/calendly\.com/);
+    // The popup's close button is an image from assets.calendly.com.
+    expect(csp).toMatch(/img-src[^;]*https:\/\/assets\.calendly\.com/);
   });
 
   it("keeps the contact form on /contact only, so pages don't turn back into lead-gen banners", () => {
