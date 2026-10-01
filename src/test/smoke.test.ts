@@ -308,3 +308,17 @@ describe("contact endpoint", () => {
     if (prev) process.env.RESEND_API_KEY = prev;
   });
 });
+
+describe("booking", () => {
+  it("books through the client's Calendly page", () => {
+    const url = new URL(site.booking.url);
+    expect(url.protocol).toBe("https:");
+    expect(url.hostname).toBe("calendly.com");
+  });
+
+  it("lets Calendly through the content security policy", () => {
+    const csp = vercelConfig.headers[0].headers.find((h) => h.key === "Content-Security-Policy")!.value;
+    expect(csp).toMatch(/script-src[^;]*https:\/\/assets\.calendly\.com/);
+    expect(csp).toMatch(/frame-src[^;]*https:\/\/calendly\.com/);
+  });
+});

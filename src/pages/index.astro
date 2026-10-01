@@ -7,6 +7,7 @@ import SiteImage from "@/components/SiteImage.astro";
 import Icon from "@/components/Icon.astro";
 import TestimonialVideo from "@/components/TestimonialVideo.astro";
 import CtaBand from "@/components/CtaBand.astro";
+import BookingButton from "@/components/BookingButton.astro";
 import { site } from "@/config/site";
 
 const home = site.home;
@@ -29,7 +30,7 @@ const posts = (await getCollection("blog")).sort((a, b) => b.data.date.valueOf()
           </h1>
           <p class="mt-6 max-w-xl text-lg sm:text-xl text-white/85">{site.business.pitch}</p>
           <div class="mt-9 flex flex-wrap gap-3">
-            <a href="/contact" class="btn-primary">{ui.hero.primaryCta}</a>
+            <BookingButton />
             <a href="/services" class="btn-secondary text-white">{ui.hero.secondaryCta}</a>
           </div>
         </div>

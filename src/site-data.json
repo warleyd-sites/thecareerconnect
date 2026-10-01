@@ -788,5 +788,10 @@
       "partnerBody": "We partner with schools, organizations and industry professionals to help people on their career journeys. If you'd like to work together, get in touch.",
       "expectBullets": []
     }
+  },
+  "booking": {
+    "url": "https://calendly.com/thecareerconnect",
+    "label": "Book a consultation",
+    "longLabel": "Book a 30-minute consultation"
   }
 }
