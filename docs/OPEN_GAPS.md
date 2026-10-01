@@ -13,12 +13,10 @@ Each entry: what is blocked, what unblocks it, who can do it.
 7. **Blog bylines.** The old site listed placeholder-looking authors (Anna Dommno, Thomas Tammeo, Christie Lashan, Jonah Oberton, Mariah Roberts; every post page said "Jennifer Hudson, January 10, 2020"). The new site credits posts to "Career Connect". **Unblock:** the client names real authors if there are any. **Who:** owner, to ask the client.
 8. **Social media links.** The old contact page had placeholder "[Facebook], [Twitter], [LinkedIn]" text and footer icons with no real URLs. The new site shows no social links. **Unblock:** the client supplies profile URLs. **Who:** owner, to ask the client.
 
-9. **A professional portrait of Carla.** The hero now uses a career stock photo (owner's call, 2026-10-01), but her photo still appears in the "Talk it through with Carla" booking section and on /about. The only one available, `src/images/carla-mackey.jpg`, is a webcam still. **Who:** owner, to ask the client.
-10. **Confirm the Calendly event.** calendly.com/thecareerconnect has one event, "30 Minute Consultation". The redesign promotes it as the main action. Is it the $20 student consultation from the pricing page, or something else? **Who:** owner, to ask the client.
 
 ## Claude can do
 
-- **Founder-led redesign.** Plan: `~/.claude/plans/compare-the-style-and-swirling-hamming.md`. Mockups: https://claude.ai/artifact/LFBGriJPsHrC89dScEni5r. Waiting on the owner's approval of the artboards before any site code changes.
+- **Founder-led redesign: parked, not shipping.** The client loves the current site (2026-10-01), so the redesign lives on branch `redesign` (commit `5d9f39f`), with mockups at https://claude.ai/artifact/LFBGriJPsHrC89dScEni5r. It brings back Calendly booking, adds motion and makes the home page story-first. Revive it only if the owner asks. Its open questions (a professional portrait of Carla, and which Calendly event to promote) apply only if it ships.
 - Mirror the new design and copy into the Webflow backup once the owner approves the Vercel version (see `CLAUDE.md` → Webflow mirror).
 
 ## Done 2026-10-01
