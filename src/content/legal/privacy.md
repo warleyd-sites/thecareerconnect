@@ -48,4 +48,4 @@ We may update this policy from time to time. Changes take effect when they are p
 
 ## Contact us
 
-Questions about this policy? Email info@thecareerconnect.net or call (443) 848-8374.
+Questions about this policy? Email careerconnectconsult@gmail.com or call (704) 620-1172.

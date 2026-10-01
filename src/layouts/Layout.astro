@@ -38,6 +38,11 @@ const ogSource = resolveImage(site.seo.ogImage?.file) ?? resolveImage(site.busin
 const ogBuilt = ogSource
   ? await getImage({ src: ogSource, width: 1200, height: 630, format: "jpeg" })
   : null;
+// The client's logo, for search engines (Google can show it with the
+// Business Profile). Absolute URL, built from the same optimized pipeline.
+const logoSource = resolveImage(site.business.logo?.file);
+const logoBuilt = logoSource ? await getImage({ src: logoSource, width: 600, format: "png" }) : null;
+const logoUrl = logoBuilt && Astro.site ? new URL(logoBuilt.src, Astro.site).href : null;
 const ogImageUrl = ogBuilt && Astro.site ? new URL(ogBuilt.src, Astro.site).href : (ogBuilt?.src ?? null);
 
 // ---- Structured data, derived entirely from site-data.json ----
@@ -60,6 +65,7 @@ const localBusiness = {
   },
   areaServed: site.business.serviceAreas.map((a) => ({ "@type": "State", name: a })),
   founder: { "@type": "Person", name: site.about.ownerName },
+  ...(logoUrl ? { logo: logoUrl } : {}),
   // Real hours from the client's own listing. No aggregateRating here: the
   // reviews live on Google, and marking up someone else's reviews as our own
   // breaches Google's structured-data policy.
@@ -130,7 +136,8 @@ const jsonLd = {
     {ogImageUrl && <meta name="twitter:image" content={ogImageUrl} />}
 
     <!-- Icons + theme -->
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <meta name="theme-color" content={site.colors.primary} />
     {isProd && <link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />}
 

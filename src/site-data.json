@@ -6,8 +6,8 @@
     "trade": "Career Development Consulting",
     "tagline": "Connecting Talent to Opportunity",
     "pitch": "Career development support for students, parents, educators and school districts, from first resume to first job.",
-    "phone": "(443) 848-8374",
-    "email": "info@thecareerconnect.net",
+    "phone": "(704) 620-1172",
+    "email": "careerconnectconsult@gmail.com",
     "streetAddress": "8101 Sandy Spring Road, Suite 300 #1026",
     "address": "Laurel, MD",
     "postalCode": "20707",
@@ -42,7 +42,11 @@
       "Saturday",
       "Sunday"
     ],
-    "reviews": null
+    "reviews": null,
+    "logo": {
+      "file": "logo-full.png",
+      "alt": "Career Connect Consultants, LLC, established 2025"
+    }
   },
   "colors": {
     "primary": "#0E508D",

@@ -32,4 +32,4 @@ We may update these terms from time to time. The date above shows when they were
 
 ## Contact us
 
-Questions about these terms? Email info@thecareerconnect.net or call (443) 848-8374.
+Questions about these terms? Email careerconnectconsult@gmail.com or call (704) 620-1172.
