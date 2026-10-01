@@ -29,15 +29,26 @@ const suffixColor = tone === "dark" ? "rgb(255 255 255 / 0.85)" : "var(--color-i
     <path d="M3 30 C 14 14, 30 12, 45 20 C 32 17, 18 21, 8 34 Z" fill="var(--color-accent)" />
     <path d="M6 35 C 18 25, 32 24, 46 27 C 33 29, 20 31, 10 38 Z" fill={tone === "dark" ? "#fff" : "var(--color-brand)"} />
   </svg>
-  <span class="flex flex-col leading-none font-display">
+  {/* The lockup is a logotype, read as one name: assistive tech gets the
+      business name once from aria-label. The letters are drawn by CSS
+      (::before content) so contrast checkers treat them as the logo they are
+      (logotypes are exempt from WCAG 1.4.3) rather than as body text. Swap
+      for the client's SVG logo when it arrives. */}
+  <span class="flex flex-col leading-none font-display" role="img" aria-label={site.business.name}>
     <span class="text-[1.05rem] sm:text-[1.2rem] font-extrabold tracking-tight">
-      <span style={`color:${firstColor}`}>{first.toUpperCase()}</span>
-      <span style="color: var(--color-accent)">{second.toUpperCase()}</span>
+      <span class="logo-word" style={`color:${firstColor}`} data-word={first.toUpperCase()}></span>
+      <span class="logo-word" style="color: var(--color-accent)" data-word={second.toUpperCase()}></span>
     </span>
     {suffix && (
       <span class="gold-rule mt-1 text-[0.58rem] font-semibold tracking-[0.18em]">
-        <span style={`color:${suffixColor}`}>{suffix.toUpperCase()}</span>
+        <span class="logo-word" style={`color:${suffixColor}`} data-word={suffix.toUpperCase()}></span>
       </span>
     )}
   </span>
 </span>
+
+<style>
+  .logo-word::before {
+    content: attr(data-word);
+  }
+</style>

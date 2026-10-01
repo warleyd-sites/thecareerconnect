@@ -24,7 +24,7 @@ We do not sell your personal information, and we do not share it with advertiser
 
 We share information only with service providers that help us run this website and our business, such as our web host and the email service that delivers contact form messages to us. They may use it only to provide those services.
 
-Some pages include video testimonials hosted on YouTube. No YouTube content loads until you press play; once you do, YouTube's privacy policy applies to that video. This site loads its fonts from Google Fonts, which receives your IP address when fonts are requested.
+Some pages include video testimonials hosted on YouTube. No YouTube content loads until you press play; once you do, YouTube's privacy policy applies to that video.
 
 ## Confidentiality
 

@@ -1,6 +1,17 @@
 ---
 import { getImage } from "astro:assets";
 import { site, isProd, schemaType, geoRegion, openingHoursSpec, ATTRIBUTION, type Faq } from "@/config/site";
+// Fonts are self-hosted (bundled from @fontsource at build time), not fetched
+// from Google: no third-party connections before text can render. Only the
+// weights the design uses; each file carries a latin unicode-range, so browsers
+// download just what the page needs.
+import "@fontsource/montserrat/500.css";
+import "@fontsource/montserrat/600.css";
+import "@fontsource/montserrat/700.css";
+import "@fontsource/montserrat/800.css";
+import "@fontsource/libre-baskerville/400.css";
+import "@fontsource/libre-baskerville/400-italic.css";
+import "@fontsource/libre-baskerville/700.css";
 import "@/styles/global.css";
 import { resolveImage } from "@/lib/images";
 
@@ -126,26 +137,6 @@ const jsonLd = {
     <!-- Structured data -->
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)}></script>
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      rel="preload"
-      as="style"
-      href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@500;600;700;800&display=swap"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@500;600;700;800&display=swap"
-      media="print"
-      onload="this.media='all'"
-    />
-    <noscript>
-      <link
-        rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@500;600;700;800&display=swap"
-      />
-    </noscript>
 
     <!-- Brand colors as CSS variables — values come from site-data.json -->
     <style define:vars={{ brandColor: site.colors.primary, navyColor: site.colors.navy, accentColor: site.colors.accent, goldColor: site.colors.gold, inkColor: site.colors.ink, mistColor: site.colors.mist }}>

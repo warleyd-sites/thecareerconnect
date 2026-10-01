@@ -18,7 +18,9 @@ export default defineConfig({
   // serves about.html at /about and 308s /about/ to it. Canonicals and the
   // sitemap follow from this.
   trailingSlash: "never",
-  build: { format: "file" },
+  // inlineStylesheets: the whole stylesheet is ~6 KB, so it ships inside each
+  // page instead of as a separate render-blocking request.
+  build: { format: "file", inlineStylesheets: "always" },
   integrations: [
     tailwind(),
     // A preview build is noindex, so shipping a sitemap for it would send
