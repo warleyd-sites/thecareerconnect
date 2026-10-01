@@ -9,7 +9,7 @@ Client site for Career Connect Consultants, LLC (founder Carla Mackey, Laurel MD
 - **Deploying:** CLI with the token at `~/.config/vercel-tokens/thecareerconnect`, from a `git archive master` copy (no git integration is connected):
   `vercel deploy --prod --yes --scope the-career-connect --token "$(cat ~/.config/vercel-tokens/thecareerconnect)"`
 - **Domain:** `thecareerconnect.net`, a Cloudflare zone on account OnlyWorkLife; `CLOUDFLARE_API_TOKEN` in the environment reaches it.
-- **Backup:** the Webflow site `thecareerconnect.webflow.io`. See "Webflow mirror" below.
+- **Backup:** the Webflow project for `thecareerconnect.webflow.io`, **unpublished** since 2026-10-01 so it can't compete in Google. See "Webflow mirror" below.
 
 ## Rules carried over from the template
 
@@ -32,7 +32,7 @@ The orange swoosh (hero, `PageHeader`) is the one recurring brand gesture. Don't
 The owner wants the Webflow site kept as a backup that tracks this one. When a change here is published:
 
 1. Deploy here first (Vercel is the source of truth).
-2. Mirror the same content change in the Webflow site through the Webflow MCP, then publish Webflow.
+2. Mirror the same content change in the Webflow project through the Webflow MCP. **Do not publish Webflow.** The owner unpublished `thecareerconnect.webflow.io` on 2026-10-01; publishing it again would put a duplicate of the site back in Google.
 3. Note in the commit or PR that Webflow was updated, or name what wasn't mirrored.
 
 Webflow can't run the contact function or the blog/legal Markdown directly. Mirror their **content**, not their mechanics.
