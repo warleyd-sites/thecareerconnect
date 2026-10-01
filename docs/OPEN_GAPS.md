@@ -13,7 +13,7 @@ Each entry: what is blocked, what unblocks it, who can do it.
 7. **Blog bylines.** The old site listed placeholder-looking authors (Anna Dommno, Thomas Tammeo, Christie Lashan, Jonah Oberton, Mariah Roberts; every post page said "Jennifer Hudson, January 10, 2020"). The new site credits posts to "Career Connect". **Unblock:** the client names real authors if there are any. **Who:** owner, to ask the client.
 8. **Social media links.** The old contact page had placeholder "[Facebook], [Twitter], [LinkedIn]" text and footer icons with no real URLs. The new site shows no social links. **Unblock:** the client supplies profile URLs. **Who:** owner, to ask the client.
 
-9. **A professional portrait of Carla.** The founder-led redesign (approved direction, 2026-10-01) puts her photo large in the hero. The only one available, `src/images/carla-mackey.jpg`, is a webcam still. It works cropped into the arch frame, but a real portrait would lift the whole site. **Who:** owner, to ask the client.
+9. **A professional portrait of Carla.** The hero now uses a career stock photo (owner's call, 2026-10-01), but her photo still appears in the "Talk it through with Carla" booking section and on /about. The only one available, `src/images/carla-mackey.jpg`, is a webcam still. **Who:** owner, to ask the client.
 10. **Confirm the Calendly event.** calendly.com/thecareerconnect has one event, "30 Minute Consultation". The redesign promotes it as the main action. Is it the $20 student consultation from the pricing page, or something else? **Who:** owner, to ask the client.
 
 ## Claude can do
